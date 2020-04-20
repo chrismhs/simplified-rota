@@ -8,6 +8,7 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #292934;
 }
 article,
 aside,
@@ -43,6 +44,8 @@ template {
 a {
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
+  font-weight: 400;
+  color: #292934;
 }
 a:active,
 a:hover {
