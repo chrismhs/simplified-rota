@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {Random} from "../utils/Random";
 import {Dates} from "../utils/Dates";
-import {RotaApi, RotaLine} from "./rotaApi";
+import {RotaApi, RotaLine} from "./RotaApi";
 
 function buildRotaLine(partial?: Partial<RotaLine>): RotaLine {
   let start = Random.date();
