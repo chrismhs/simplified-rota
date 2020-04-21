@@ -1,5 +1,5 @@
-import {Random} from '../src/Random';
 import {expect} from 'chai';
+import {Random} from "./Random";
 
 describe('Random', () => {
   it('produces a random number between a min and max', () => {
@@ -19,7 +19,7 @@ describe('Random', () => {
   });
 
   it('produces an even distribution between two numbers (max 5% variation)', () => {
-    const numbers = [...new Array(1000000).keys()].map(() => Random.number(0, 1).toFixed(2));
+    const numbers = [...new Array(100000)].map(() => Random.number(0, 1).toFixed(2));
     const seed: {[key: string]:number} = {};
     const distribution = numbers.reduce((dist: {[key:string]: number}, number) => {
       dist[number] = dist[number] ? dist[number]+1 : 1;
