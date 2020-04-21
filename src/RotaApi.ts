@@ -16,9 +16,9 @@ export class RotaApi {
       const responseFromApi = await this.fetcher(`${this.baseUrl}/responses`);
       const body = await responseFromApi.text();
       const parsed = JSON.parse(body);
-      return {rotaRows: parsed || [], error: parsed.error}
+      return {rotaRows: parsed.timetable || [], error: parsed.error}
     } catch (e) {
-      return {rotaRows: {}, error: e.message}
+      return {rotaRows: [], error: e.message}
     }
   }
 }
