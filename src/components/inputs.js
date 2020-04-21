@@ -13,7 +13,7 @@ const Description = styled.p`
 
 const InputStyle = styled.input`
   padding: 12px;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(${(props) => props.theme.light.text}, 0.05);
   border: 0;
   border-bottom: 1px solid rgb(0, 0, 0);
 
