@@ -30,7 +30,7 @@ const Setup = () => (
       />
       <Link to="/">Go back to the homepage</Link>
       <br />
-      <Link to="/calendar">Calendar page</Link>
+      <Link to="/schedule">Calendar page</Link>
     </TwoThirdsWidth>
   </Layout>
 );

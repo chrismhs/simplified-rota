@@ -646,3 +646,29 @@ pre tt:after {
     font-size: 100%;
   }
 }
+
+/* big calendar overrides */
+$out-of-range-color: rgba(0, 0, 0, 0.1) !default;
+$out-of-range-bg-color: #fff5ef !default;
+
+$calendar-border: none !default;
+$cell-border: rgba(0, 0, 0, 0.05) !default;
+
+$border-color: #fff !default;
+
+$event-bg: #fff !default;
+$event-color: #292934 !default;
+$event-padding: 5px 5px !default;
+
+$today-highlight-bg: #ffcdb1 !default;
+
+.rbc-event {
+  margin: 0 3% !important;
+  width: 94% !important;
+}
+
+.rbc-date-cell {
+  padding: 5px;
+}
+
+@import "react-big-calendar/lib/sass/styles";
