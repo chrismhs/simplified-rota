@@ -29,20 +29,15 @@ const Spacer = styled.div`
 
 const IndexPage = () => {
 
-  const onChangeHandler = (e) => {
-    const file = e.target.files[0];
+  const onChangeHandler = async(e) => {
     const data = new FormData();
-    data.append('file', file);
+    data.append('file', e.target.files[0]);
 
     fetch('http://127.0.0.1:5000/parse', {
       method: 'POST',
-      headers: {
-        'content-type': 'multipart/form-data',
-      },
       mode: 'no-cors',
       body: data
-    })
-
+    });
   };
 
   return (
