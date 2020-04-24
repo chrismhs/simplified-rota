@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import styled from "styled-components";
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import {Calendar, momentLocalizer} from "react-big-calendar";
 import moment from "moment";
 import "moment/locale/en-gb";
 
@@ -24,6 +24,8 @@ const myEventsList = [
 
 class CalendarComponent extends Component {
   render() {
+    const data = JSON.parse(window.localStorage.getItem('rotaData'));
+    console.log(data);
     return (
       <Container>
         <Calendar

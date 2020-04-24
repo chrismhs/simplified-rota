@@ -24,18 +24,10 @@ const FileInput = styled.input`
 
 export const SelectFile = () => {
     const onChangeHandler = async (e) => {
-        // For when we actually send data to back end
-        // const data = new FormData();
-        // data.append('file', e.target.files[0]);
-        //
-        // const res = await fetch('http://127.0.0.1:5000/parse', {
-        //   method: 'POST',
-        //   mode: 'no-cors',
-        //   body: data
-        // });
-
-        const data = stubbedData;
-        console.log(data);
+        // TODO use api abstraction eg:
+        // const file = e.target.files[0];
+        // const data = api.getRotaRows(file);
+        localStorage.setItem('rotaData', JSON.stringify(stubbedData));
     };
     return (
         <Fragment>
