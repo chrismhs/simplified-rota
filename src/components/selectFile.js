@@ -1,4 +1,3 @@
-import stubbedData from "../../sample";
 import React, {Fragment} from "react";
 import styled from "styled-components";
 
@@ -24,10 +23,20 @@ const FileInput = styled.input`
 
 export const SelectFile = () => {
     const onChangeHandler = async (e) => {
-        // TODO use api abstraction eg:
-        // const file = e.target.files[0];
-        // const data = api.getRotaRows(file);
-        localStorage.setItem('rotaData', JSON.stringify(stubbedData));
+        const file = e.target.files[0];
+        const form = new FormData();
+        form.append('file', file);
+        const response = await fetch('http://localhost:5000/parse', {
+            method: "POST",
+            mode: "cors",
+            redirect: "error",
+            body: form,
+            headers: {
+                "Accept": "application/json"
+            }
+        });
+        const rotaData = await response.json();
+        localStorage.setItem('rotaData', JSON.stringify(rotaData));
     };
     return (
         <Fragment>
