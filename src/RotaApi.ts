@@ -28,5 +28,3 @@ export class RotaApi {
     }
   }
 }
-
-export const rotaApi = new RotaApi();
