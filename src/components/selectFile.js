@@ -36,7 +36,11 @@ export const SelectFile = () => {
             }
         });
         const rotaData = await response.json();
-        localStorage.setItem('rotaData', JSON.stringify(rotaData));
+        if (typeof localStorage !== 'undefined') {
+            localStorage.setItem('rotaData', JSON.stringify(rotaData));
+        } else {
+            console.warn("localStorage not available");
+        }
     };
     return (
         <Fragment>

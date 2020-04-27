@@ -24,8 +24,12 @@ const myEventsList = [
 
 class CalendarComponent extends Component {
   render() {
-    const data = JSON.parse(window.localStorage.getItem('rotaData'));
-    console.log(data);
+    if (typeof localStorage !== 'undefined') {
+      const data = JSON.parse(localStorage.getItem('rotaData'));
+      console.log(data);
+    } else {
+      console.warn("Failed to retrieve rota data from localStorage");
+    }
     return (
       <Container>
         <Calendar
