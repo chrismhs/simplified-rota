@@ -25,7 +25,7 @@ jobs:
       - attach_workspace:
           at: .
       - run: npm install firebase-tools
-      - run: npx firebase --token $FIREBASE_TOKEN deploy
+      - run: npx firebase --project $FIREBASE_PROJECT --token $FIREBASE_TOKEN deploy
 
 workflows:
   build-and-test:
