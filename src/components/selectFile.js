@@ -1,5 +1,7 @@
 import React, {Fragment} from "react";
 import styled from "styled-components";
+import {PARSE_ENDPOINT} from "../environment";
+
 
 const SubmitButton = styled.button`
   display: flex;
@@ -20,13 +22,12 @@ const SubmitButton = styled.button`
 const FileInput = styled.input`
   display: none;
 `;
-
 export const SelectFile = () => {
     const onChangeHandler = async (e) => {
         const file = e.target.files[0];
         const form = new FormData();
         form.append('file', file);
-        const response = await fetch('http://localhost:5000/parse', {
+        const response = await fetch(PARSE_ENDPOINT, {
             method: "POST",
             mode: "cors",
             redirect: "error",

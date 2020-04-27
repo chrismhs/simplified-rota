@@ -1,3 +1,5 @@
+import {PARSE_ENDPOINT} from "./environment";
+
 export interface RotaLine {
   name: string;
   assignees: string[];
@@ -7,10 +9,8 @@ export interface RotaLine {
   }
 }
 
-export const ROTA_API = process.env.ROTA_API || 'http://localhost:5000/parse';
-
 export class RotaApi {
-  constructor(private baseUrl: string = ROTA_API, private fetcher = window.fetch.bind(window)) {
+  constructor(private baseUrl: string = PARSE_ENDPOINT, private fetcher = window.fetch.bind(window)) {
   }
 
   async getRotaRows(file?: File): Promise<{ rotaRows: any, error?: string }> {
