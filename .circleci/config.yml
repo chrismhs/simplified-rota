@@ -11,6 +11,21 @@ jobs:
           steps:
             - run: npm install
             - run: npm test
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build
+
+  deploy:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: npm install -g firebase-tools
+      - run: firebase deploy --token $FIREBASE_TOKEN
+
 workflows:
   build-and-test:
     jobs:
