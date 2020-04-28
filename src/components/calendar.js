@@ -12,35 +12,67 @@ const Container = styled.div`
 `;
 
 const myEventsList = [
-  {
-    id: 0,
-    title: "All Day",
-    allDay: false,
-    start: new Date(2020, 4, 0, 1, 0, 0),
-    end: new Date(2020, 4, 0, 11, 0, 0),
-    desc: "Pre-meeting meeting, to prepare for the meeting",
-  },
+    {
+        id: 0,
+        title: "All Day",
+        allDay: false,
+        start: new Date(2020, 4, 0, 1, 0, 0),
+        end: new Date(2020, 4, 0, 11, 0, 0),
+        desc: "Pre-meeting meeting, to prepare for the meeting",
+    },
 ];
 
 class CalendarComponent extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <Container>
-        <input value={'hey'} type='checkbox'/>
-        <Calendar
-            localizer={localizer}
-            events={this.props.calendarData}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: 600 }}
-            views={["month", "week", "agenda"]}
-        />
-      </Container>
-    );
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            selected: CalendarComponent.getNames(this.props.calendarData)
+        };
+    }
+
+    handleFilterChange(e) {
+        const {value, checked} = e.currentTarget;
+
+        if(checked) {
+            this.setState({selected: [...this.state.selected, value] });
+            console.log(this.state)
+        } else {
+            this.setState({selected: this.state.selected.filter(currentVal => currentVal !== value) });
+            console.log(this.state)
+        }
+    }
+
+    static getNames(data) {
+        return data.map(calendarEntry => {
+            return calendarEntry.assignees
+        }).flat().reduce((prev, curr) => {
+            if (!prev.includes(curr)) {
+                prev.push(curr)
+            }
+            return prev
+        }, []).sort();
+    }
+
+    render() {
+        const names = CalendarComponent.getNames(this.props.calendarData);
+        return (
+            <Container>
+                {names.map(name => {
+                    return <label><input value={name} type='checkbox' onChange={this.handleFilterChange.bind(this)}/>{name}</label>
+                })}
+                <Calendar
+                    localizer={localizer}
+                    events={this.props.calendarData}
+                    startAccessor="start"
+                    endAccessor="end"
+                    style={{height: 600}}
+                    views={["month", "week", "agenda"]}
+                />
+            </Container>
+        );
+    }
+
+
 }
 
 export default CalendarComponent;
