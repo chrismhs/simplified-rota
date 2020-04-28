@@ -21,23 +21,19 @@ const SubmitButton = styled.button`
 const FileInput = styled.input`
   display: none;
 `;
-export const SelectFile = () => {
+export const SelectFile = ({updateCalendarData}) => {
     const onChangeHandler = async (e) => {
         const file = e.target.files[0];
-        const form = new FormData();
-        form.append('file', file);
-        const response = await new RotaApi().getRotaRows(form);
-        if (typeof localStorage !== 'undefined') {
-            localStorage.setItem('rotaData', JSON.stringify(response));
-        } else {
-            console.warn("localStorage not available");
+        const response = await new RotaApi().getCalendarData(file);
+        if (!response.error) {
+            updateCalendarData(response.calendarData)
         }
     };
     return (
         <Fragment>
-            <SubmitButton onClick={() => document.getElementById('myfile').click()}>Upload from your
-                computer</SubmitButton>
-            <FileInput type="file" id="myfile" name="myfile" onChange={onChangeHandler}/>
+            <SubmitButton onClick={() => document.getElementById('myfile').click()}>Upload your rota</SubmitButton>
+            {/*todo check file types*/}
+            <FileInput type="file" id="myfile" name="myfile" accept=".xlsx" onChange={onChangeHandler}/>
         </Fragment>
     )
 };

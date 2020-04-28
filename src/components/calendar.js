@@ -23,22 +23,20 @@ const myEventsList = [
 ];
 
 class CalendarComponent extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
-    if (typeof localStorage !== 'undefined') {
-      const data = JSON.parse(localStorage.getItem('rotaData'));
-      console.log(data);
-    } else {
-      console.warn("Failed to retrieve rota data from localStorage");
-    }
     return (
       <Container>
+        <input value={'hey'} type='checkbox'/>
         <Calendar
-          localizer={localizer}
-          events={myEventsList}
-          startAccessor="start"
-          endAccessor="end"
-          style={{ height: 600 }}
-          views={["month", "week", "agenda"]}
+            localizer={localizer}
+            events={this.props.calendarData}
+            startAccessor="start"
+            endAccessor="end"
+            style={{ height: 600 }}
+            views={["month", "week", "agenda"]}
         />
       </Container>
     );

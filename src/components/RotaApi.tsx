@@ -2,9 +2,19 @@ export interface RotaLine {
   name: string;
   assignees: string[];
   time: {
-    start: Date;
-    end: Date;
+    start: string;
+    end: string;
   }
+}
+
+export type CalendarEntry = {
+  assignees: string[],
+  id: number,
+  title: string,
+  allDay: boolean,
+  start: Date,
+  end: Date,
+  desc: string,
 }
 
 export const ROTA_API = process.env.ROTA_API || 'http://localhost:5000';
@@ -12,15 +22,32 @@ export const ROTA_API = process.env.ROTA_API || 'http://localhost:5000';
 export class RotaApi {
   constructor(private fetcher: any = actualFetch) {}
 
-  public async getRotaRows(formWithFile?: any): Promise<{ rotaRows: any, error?: string }> {
+  async getCalendarData(file: File): Promise<{ calendarData: CalendarEntry[], error?: string }> {
     try {
-      const responseFromApi = await this.fetcher(formWithFile);
+      const form = new FormData();
+      form.append('file', file);
+      const responseFromApi = await this.fetcher(form);
       const body = await responseFromApi.text();
       const parsed = JSON.parse(body);
-      return {rotaRows: parsed.rota || [], error: parsed.error}
+      const calendarData = this.mapRotaToCalendarData(parsed.rota);
+      return {calendarData, error: parsed.error}
     } catch (e) {
-      return {rotaRows: [], error: e.message}
+      return {calendarData: [], error: e.message}
     }
+  }
+
+  private mapRotaToCalendarData(rota: RotaLine[]): CalendarEntry[] {
+    return rota.map(({name, assignees, time}, index) => {
+      return {
+        allDay: false,
+        assignees,
+        desc: name,
+        end: new Date(time.end),
+        start: new Date(time.start),
+        id: index,
+        title: name
+      }
+    })
   }
 }
 
