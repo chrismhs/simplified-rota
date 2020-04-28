@@ -7,7 +7,7 @@ jobs:
       name: node/default
     steps:
       - checkout
-      - run: npm install --build-from-source
+      - node/install-packages
       - run: npm test
       - run: npm run build
       - persist_to_workspace:
