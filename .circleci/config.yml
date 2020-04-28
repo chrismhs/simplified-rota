@@ -26,12 +26,9 @@ jobs:
       - run: npx firebase --project $FIREBASE_PROJECT --token $FIREBASE_TOKEN deploy
 
 workflows:
-  build-and-test:
+  build-test-deploy:
     jobs:
-      - build-and-test:
-          filters:
-            branches:
-              only: master
+      - build-and-test
       - deploy:
           requires:
             - build-and-test
