@@ -1,7 +1,6 @@
 import React, {Fragment} from "react";
 import styled from "styled-components";
-import {PARSE_ENDPOINT} from "../environment";
-
+import {RotaApi} from "./RotaApi";
 
 const SubmitButton = styled.button`
   display: flex;
@@ -27,18 +26,9 @@ export const SelectFile = () => {
         const file = e.target.files[0];
         const form = new FormData();
         form.append('file', file);
-        const response = await fetch(PARSE_ENDPOINT, {
-            method: "POST",
-            mode: "cors",
-            redirect: "error",
-            body: form,
-            headers: {
-                "Accept": "application/json"
-            }
-        });
-        const rotaData = await response.json();
+        const response = await new RotaApi().getRotaRows(form);
         if (typeof localStorage !== 'undefined') {
-            localStorage.setItem('rotaData', JSON.stringify(rotaData));
+            localStorage.setItem('rotaData', JSON.stringify(response));
         } else {
             console.warn("localStorage not available");
         }
