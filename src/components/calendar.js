@@ -35,10 +35,8 @@ class CalendarComponent extends Component {
 
         if(checked) {
             this.setState({selected: [...this.state.selected, value] });
-            console.log(this.state)
         } else {
             this.setState({selected: this.state.selected.filter(currentVal => currentVal !== value) });
-            console.log(this.state)
         }
     }
 

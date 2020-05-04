@@ -21,19 +21,19 @@ const SubmitButton = styled.button`
 const FileInput = styled.input`
   display: none;
 `;
-export const SelectFile = ({updateCalendarData}) => {
-    const onChangeHandler = async (e) => {
+export const SelectFile = ({onRotaUploaded}) => {
+    const onChange = async (e) => {
         const file = e.target.files[0];
         const response = await new RotaApi().getCalendarData(file);
         if (!response.error) {
-            updateCalendarData(response.calendarData)
+            onRotaUploaded(response.calendarData);
         }
     };
     return (
         <Fragment>
             <SubmitButton onClick={() => document.getElementById('myfile').click()}>Upload your rota</SubmitButton>
             {/*todo check file types*/}
-            <FileInput type="file" id="myfile" name="myfile" accept=".xlsx" onChange={onChangeHandler}/>
+            <FileInput type="file" id="myfile" name="myfile" accept=".xlsx" onChange={onChange}/>
         </Fragment>
     )
 };
