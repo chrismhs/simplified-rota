@@ -1,11 +1,13 @@
-export interface RotaLine {
+export interface Activity {
   name: string;
   assignees: string[];
   time: {
-    start: string;
-    end: string;
+    start: Date;
+    end: Date;
   }
 }
+
+export type Rota = Activity[]
 
 export type CalendarEntry = {
   assignees: string[],
@@ -36,7 +38,7 @@ export class RotaApi {
     }
   }
 
-  private mapRotaToCalendarData(rota: RotaLine[]): CalendarEntry[] {
+  private mapRotaToCalendarData(rota: Activity[]): CalendarEntry[] {
     return rota.map(({name, assignees, time}, index) => {
       return {
         allDay: false,
