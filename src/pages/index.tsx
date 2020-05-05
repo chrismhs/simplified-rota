@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "gatsby";
+import {Link, navigate} from "gatsby";
 import styled from "styled-components";
 
 import Layout from "../components/layout";
@@ -13,7 +13,11 @@ const Spacer = styled.div`
   height: 50px;
 `;
 
-const Index: React.FunctionComponent<{ onUpload: OnScheduleUploaded }> = ({ onUpload }) => {
+const Index: React.FunctionComponent = () => {
+    const onUpload: OnScheduleUploaded = async schedule => {
+        sessionStorage.setItem("simplerotas", btoa(JSON.stringify(schedule)));
+        await navigate("/schedule");
+    };
     return (
         <Layout>
             <SEO title="Home"/>

@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import styled from "styled-components";
-import {RotaApi} from "./RotaApi";
+import {RotaApi} from "../../utils/RotaApi";
 import {OnScheduleUploaded} from "../../utils/Types";
 
 const SubmitButton = styled.button`
