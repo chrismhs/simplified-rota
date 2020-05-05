@@ -6,14 +6,19 @@ import Layout from "../components/layout";
 import {SelectFile} from "../components/selectFile";
 import SEO from "../components/seo";
 import TwoThirdsWidth from "../layout/containers";
+import {Schedule} from "../components/RotaApi";
 
 const Spacer = styled.div`
   display: block;
   height: 50px;
 `;
 
+type IndexParams = {
+    onUpload: (schedule: Schedule) => void;
+}
 
-const Homepage = ({ onRotaUploaded }) => {
+const Index = (params: IndexParams) => {
+    const {onUpload} = params;
     return (
         <Layout>
             <SEO title="Home"/>
@@ -23,7 +28,7 @@ const Homepage = ({ onRotaUploaded }) => {
                     A tool that helps healthcare workers get a simple version of their work
                     schedule. Knowing when you are working should be easy.
                 </p>
-                <SelectFile onRotaUploaded={onRotaUploaded}/>
+                <SelectFile onRotaUploaded={onUpload}/>
                 <Link to="/setup/">Setup page</Link>
                 <Spacer/>
                 <p>
@@ -35,4 +40,4 @@ const Homepage = ({ onRotaUploaded }) => {
     )
 };
 
-export default Homepage;
+export default Index;

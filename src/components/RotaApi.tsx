@@ -19,12 +19,14 @@ export type CalendarEntry = {
   desc: string,
 }
 
+export type Schedule = CalendarEntry[]
+
 export const ROTA_API = process.env.ROTA_API || 'http://localhost:5000';
 
 export class RotaApi {
   constructor(private fetcher: any = actualFetch) {}
 
-  async getCalendarData(file: File): Promise<{ calendarData: CalendarEntry[], error?: string }> {
+  async getCalendarData(file: File): Promise<{ calendarData: Schedule, error?: string }> {
     try {
       const form = new FormData();
       form.append('file', file);
