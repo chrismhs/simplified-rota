@@ -6,19 +6,14 @@ import Layout from "../components/layout";
 import {SelectFile} from "../components/selectFile";
 import SEO from "../components/seo";
 import TwoThirdsWidth from "../layout/containers";
-import {Schedule} from "../components/RotaApi";
+import {OnScheduleUploaded} from "../../utils/Types";
 
 const Spacer = styled.div`
   display: block;
   height: 50px;
 `;
 
-type IndexParams = {
-    onUpload: (schedule: Schedule) => void;
-}
-
-const Index = (params: IndexParams) => {
-    const {onUpload} = params;
+const Index: React.FunctionComponent<{ onUpload: OnScheduleUploaded }> = ({ onUpload }) => {
     return (
         <Layout>
             <SEO title="Home"/>
