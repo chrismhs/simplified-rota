@@ -5,8 +5,9 @@ import Layout from "../components/layout";
 import SEO from "../components/seo";
 import CalendarComponent from "../components/calendar";
 import ErrorPage from "../components/errorPage";
+import {CalendarEntries} from "../../utils/RotaApi";
 
-function retrieveCalendarData() {
+function retrieveCalendarData(): CalendarEntries | null {
     try {
         return JSON.parse(atob(sessionStorage.getItem("simplerotas")!!));
     } catch (e) {

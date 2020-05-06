@@ -42,9 +42,12 @@
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",
+    "@types/deep-equal-in-any-order": "^1.0.1",
     "@types/mocha": "^7.0.2",
+    "@types/react-big-calendar": "^0.24.0",
     "@types/styled-components": "^5.1.0",
     "chai": "^4.2.0",
+    "deep-equal-in-any-order": "^1.0.27",
     "mocha": "^7.1.1",
     "prettier": "2.0.4"
   },
