@@ -3,7 +3,7 @@ import { Link } from "gatsby";
 
 import Layout from "../components/layout";
 import SEO from "../components/seo";
-import TwoThirdsWidth from "../layout/containers";
+import {TwoThirdsWidth} from "../layout/containers";
 import Input from "../components/inputs";
 
 const Setup = () => (

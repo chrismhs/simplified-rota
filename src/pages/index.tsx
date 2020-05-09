@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Layout from "../components/layout";
 import {SelectFile} from "../components/selectFile";
 import SEO from "../components/seo";
-import TwoThirdsWidth from "../layout/containers";
+import {TwoThirdsWidth} from "../layout/containers";
 import {OnScheduleUploaded} from "../../utils/Types";
 
 const Spacer = styled.div`

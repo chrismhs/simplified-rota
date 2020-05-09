@@ -13,19 +13,44 @@ const Container = styled.div`
   font-size: 0.875rem;
 `;
 
-const myEventsList = [
-    {
-        id: 0,
-        title: "All Day",
-        allDay: false,
-        start: new Date(2020, 4, 0, 1, 0, 0),
-        end: new Date(2020, 4, 0, 11, 0, 0),
-        desc: "Pre-meeting meeting, to prepare for the meeting",
-    },
-];
 
 type CalendarProps = {
-       calendarData: CalendarEntries
+    calendarData: CalendarEntries
+}
+
+type OnFilterChange = (details: { value: string, checked: boolean }) => void;
+
+type NameFilterProps = {
+    names: string[];
+    onFilterChange: OnFilterChange;
+};
+
+class NameFilter extends Component<NameFilterProps> {
+    constructor(props: NameFilterProps) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div>
+                {this.props.names.map(this.renderName.bind(this))}
+            </div>
+        );
+    }
+
+    private renderName(name: string) {
+        return (
+            <label>
+                <input value={name} type='checkbox' onChange={this.onChange.bind(this)}/>
+                {name}
+            </label>
+        );
+    }
+
+    private onChange(e: React.FormEvent<HTMLInputElement>) {
+        const {value, checked} = e.currentTarget;
+        this.props.onFilterChange({value, checked});
+    }
 }
 
 class CalendarComponent extends Component<CalendarProps, { selected: string[] }> {
@@ -36,24 +61,20 @@ class CalendarComponent extends Component<CalendarProps, { selected: string[] }>
         };
     }
 
-    handleFilterChange(e: React.FormEvent<HTMLInputElement>) {
-        const {value, checked} = e.currentTarget;
-
-        if(checked) {
-            this.setState({selected: [...this.state.selected, value] });
+    handleFilterChange: OnFilterChange = ({ value, checked }) => {
+        if (checked) {
+            this.setState({selected: [...this.state.selected, value]});
         } else {
-            this.setState({selected: this.state.selected.filter(currentVal => currentVal !== value) });
+            this.setState({selected: this.state.selected.filter(currentVal => currentVal !== value)});
         }
-    }
+    };
 
     render() {
         const names = getAllMembers(this.props.calendarData);
 
         return (
             <Container>
-                {names.map(name => {
-                    return <label><input value={name} type='checkbox' onChange={this.handleFilterChange.bind(this)}/>{name}</label>
-                })}
+                <NameFilter names={names} onFilterChange={this.handleFilterChange.bind(this)} />
                 <Calendar
                     localizer={localizer}
                     events={this.props.calendarData}

@@ -13,10 +13,10 @@ export type CalendarEntry = {
   assignees: string[],
   id: number,
   title: string,
-  allDay: boolean,
+  allDay?: boolean,
   start: Date,
   end: Date,
-  desc: string,
+  desc?: string,
 }
 
 export type CalendarEntries = CalendarEntry[]
