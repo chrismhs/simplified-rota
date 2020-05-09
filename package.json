@@ -42,17 +42,25 @@
     "typescript": "^3.8.3"
   },
   "devDependencies": {
-    "@types/react": "^16.9.34",
-    "@types/react-dom": "^16.9.6",
     "@types/chai": "^4.2.11",
     "@types/deep-equal-in-any-order": "^1.0.1",
+    "@types/enzyme": "^3.10.5",
+    "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/mocha": "^7.0.2",
+    "@types/react": "^16.9.34",
     "@types/react-big-calendar": "^0.24.0",
+    "@types/react-dom": "^16.9.6",
     "@types/styled-components": "^5.1.0",
     "chai": "^4.2.0",
     "deep-equal-in-any-order": "^1.0.27",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "latest",
+    "jsdom": "^16.2.2",
     "mocha": "^7.1.1",
     "prettier": "2.0.4"
+  },
+  "mocha": {
+    "require": "src/setupEnzyme.js"
   },
   "keywords": [
     "gatsby"
