@@ -15,14 +15,15 @@ const Container = styled.div`
 
 
 type CalendarProps = {
-    calendarData: CalendarEntries
+    calendarData: CalendarEntries;
+    initialNameSelection?: string[];
 }
 
 type OnFilterChange = (details: { value: string, checked: boolean }) => void;
 
 type NameFilterProps = {
     names: string[];
-    onFilterChange: OnFilterChange;
+    updateFilter: OnFilterChange;
 };
 
 class NameFilter extends Component<NameFilterProps> {
@@ -33,7 +34,7 @@ class NameFilter extends Component<NameFilterProps> {
     render() {
         let key = 0;
         return (
-            <div>
+            <div className='name-filter'>
                 {this.props.names.map(n => this.renderName(n, key++))}
             </div>
         );
@@ -42,16 +43,15 @@ class NameFilter extends Component<NameFilterProps> {
     private renderName(name: string, key: number) {
         return (
             <label key={key}>
-                <input value={name} type='checkbox' onChange={this.onChange.bind(this)}/>
+                <input className='name-filter__name' value={name} type='checkbox' onChange={this.onChange.bind(this)}/>
                 {name}
             </label>
         );
     }
 
     private onChange(e: React.FormEvent<HTMLInputElement>) {
-        console.log({ e });
         const {value, checked} = e.currentTarget;
-        this.props.onFilterChange({value, checked});
+        this.props.updateFilter({value, checked});
     }
 }
 
@@ -59,28 +59,31 @@ class CalendarComponent extends Component<CalendarProps, { selected: string[] }>
     constructor(props: CalendarProps) {
         super(props);
         this.state = {
-            selected: getAllMembers(this.props.calendarData)
+            selected: this.props.initialNameSelection || []
         };
     }
 
-    handleFilterChange: OnFilterChange = ({ value, checked }) => {
-        console.log({ value, checked });
-        if (checked) {
-            this.setState({selected: [...this.state.selected, value]});
-        } else {
-            this.setState({selected: this.state.selected.filter(currentVal => currentVal !== value)});
-        }
+    updateFilter: OnFilterChange = ({value, checked}) => {
+        const selected = checked
+            ? this.state.selected.concat(value)
+            : this.state.selected.filter(currentVal => currentVal !== value);
+
+        this.setState({selected});
     };
 
     render() {
         const names = getAllMembers(this.props.calendarData);
+        const selection = this.state.selected;
+
+        const events = this.props.calendarData
+            .filter(entry => entry.assignees.some(assignee => selection.includes(assignee)));
 
         return (
             <Container>
-                <NameFilter names={names} onFilterChange={this.handleFilterChange.bind(this)} />
+                <NameFilter names={names} updateFilter={this.updateFilter.bind(this)}/>
                 <Calendar
                     localizer={localizer}
-                    events={this.props.calendarData}
+                    events={events}
                     startAccessor="start"
                     endAccessor="end"
                     // @ts-ignore (any ideas?)
