@@ -31,16 +31,17 @@ class NameFilter extends Component<NameFilterProps> {
     }
 
     render() {
+        let key = 0;
         return (
             <div>
-                {this.props.names.map(this.renderName.bind(this))}
+                {this.props.names.map(n => this.renderName(n, key++))}
             </div>
         );
     }
 
-    private renderName(name: string) {
+    private renderName(name: string, key: number) {
         return (
-            <label>
+            <label key={key}>
                 <input value={name} type='checkbox' onChange={this.onChange.bind(this)}/>
                 {name}
             </label>
@@ -48,6 +49,7 @@ class NameFilter extends Component<NameFilterProps> {
     }
 
     private onChange(e: React.FormEvent<HTMLInputElement>) {
+        console.log({ e });
         const {value, checked} = e.currentTarget;
         this.props.onFilterChange({value, checked});
     }
@@ -62,6 +64,7 @@ class CalendarComponent extends Component<CalendarProps, { selected: string[] }>
     }
 
     handleFilterChange: OnFilterChange = ({ value, checked }) => {
+        console.log({ value, checked });
         if (checked) {
             this.setState({selected: [...this.state.selected, value]});
         } else {
