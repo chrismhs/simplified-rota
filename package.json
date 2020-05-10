@@ -17,6 +17,7 @@
     "test": "mocha './{,!(node_modules)/**}/*.test.ts' --require ts-node/register"
   },
   "dependencies": {
+    "@types/react-select": "^3.0.12",
     "babel-plugin-styled-components": "^1.10.7",
     "gatsby": "^2.20.25",
     "gatsby-image": "^2.3.4",
@@ -35,6 +36,7 @@
     "react-big-calendar": "^0.24.5",
     "react-dom": "^16.12.0",
     "react-helmet": "^6.0.0",
+    "react-select": "^3.1.0",
     "styled-components": "^5.1.0",
     "ts-node": "^8.9.0",
     "typeface-cabin": "0.0.72",

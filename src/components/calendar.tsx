@@ -5,6 +5,8 @@ import moment from "moment";
 import "moment/locale/en-gb";
 import {CalendarEntries} from "../../utils/RotaApi";
 import {getAllMembers} from "../../utils/CalendarUtils";
+import DropdownMultiSelect from "./dropdown";
+import Select from "react-select";
 
 // Setup the localizer by providing the moment (or globalize) Object to the correct localizer.
 const localizer = momentLocalizer(moment); // or globalizeLocalizer
@@ -23,30 +25,30 @@ type OnFilterChange = (details: { value: string, checked: boolean }) => void;
 
 type NameFilterProps = {
     names: string[];
+    selection: string[];
     updateFilter: OnFilterChange;
 };
 
 class NameFilter extends Component<NameFilterProps> {
+    private readonly options: { value: string, label: string }[];
     constructor(props: NameFilterProps) {
         super(props);
+        this.options = this.props.names
+            .map(name => ({ value: name, label: name }));
     }
 
     render() {
-        let key = 0;
         return (
-            <div className='name-filter'>
-                {this.props.names.map(n => this.renderName(n, key++))}
-            </div>
-        );
-    }
-
-    private renderName(name: string, key: number) {
-        return (
-            <label key={key}>
-                <input className='name-filter__name' value={name} type='checkbox' onChange={this.onChange.bind(this)}/>
-                {name}
-            </label>
-        );
+            <Select
+                isMulti
+                defaultValue={this.props.selection}
+                name="Assignees"
+                options={this.options}
+                className="names-select"
+                classNamePrefix="select"
+                onChange={console.log}
+            />
+        )
     }
 
     private onChange(e: React.FormEvent<HTMLInputElement>) {
@@ -80,7 +82,11 @@ class CalendarComponent extends Component<CalendarProps, { selected: string[] }>
 
         return (
             <Container>
-                <NameFilter names={names} updateFilter={this.updateFilter.bind(this)}/>
+                <NameFilter
+                    names={names}
+                    updateFilter={this.updateFilter.bind(this)}
+                    selection={selection}
+                />
                 <Calendar
                     localizer={localizer}
                     events={events}
