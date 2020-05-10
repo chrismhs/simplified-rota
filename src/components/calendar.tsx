@@ -5,7 +5,6 @@ import moment from "moment";
 import "moment/locale/en-gb";
 import {CalendarEntries} from "../../utils/RotaApi";
 import {getAllMembers} from "../../utils/CalendarUtils";
-import DropdownComponent from "./dropdown";
 
 // Setup the localizer by providing the moment (or globalize) Object to the correct localizer.
 const localizer = momentLocalizer(moment); // or globalizeLocalizer
@@ -22,7 +21,7 @@ type CalendarProps = {
 
 type OnFilterChange = (details: { value: string, checked: boolean }) => void;
 
-export type NameFilterProps = {
+type NameFilterProps = {
     names: string[];
     updateFilter: OnFilterChange;
 };
@@ -82,7 +81,6 @@ class CalendarComponent extends Component<CalendarProps, { selected: string[] }>
         return (
             <Container>
                 <NameFilter names={names} updateFilter={this.updateFilter.bind(this)}/>
-                {/*<DropdownComponent names={names} updateFilter={this.updateFilter.bind(this)} />*/}
                 <Calendar
                     localizer={localizer}
                     events={events}
