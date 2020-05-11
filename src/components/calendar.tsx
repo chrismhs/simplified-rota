@@ -5,8 +5,8 @@ import moment from "moment";
 import "moment/locale/en-gb";
 import {CalendarEntries} from "../../utils/RotaApi";
 import {getAllMembers} from "../../utils/CalendarUtils";
-import DropdownMultiSelect from "./dropdown";
-import Select from "react-select";
+import Select, {OptionsType} from "react-select";
+import {ActionMeta, ValueType} from "react-select/src/types";
 
 // Setup the localizer by providing the moment (or globalize) Object to the correct localizer.
 const localizer = momentLocalizer(moment); // or globalizeLocalizer
@@ -21,7 +21,7 @@ type CalendarProps = {
     initialNameSelection?: string[];
 }
 
-type OnFilterChange = (details: { value: string, checked: boolean }) => void;
+type OnFilterChange = (newSelection: string[]) => void;
 
 type NameFilterProps = {
     names: string[];
@@ -29,31 +29,40 @@ type NameFilterProps = {
     updateFilter: OnFilterChange;
 };
 
+type NameFilterOption = {
+    value: string;
+    label: string;
+}
+
 class NameFilter extends Component<NameFilterProps> {
-    private readonly options: { value: string, label: string }[];
+    private readonly options: OptionsType<NameFilterOption>;
+    private readonly initialSelection: OptionsType<NameFilterOption>;
+
     constructor(props: NameFilterProps) {
         super(props);
-        this.options = this.props.names
-            .map(name => ({ value: name, label: name }));
+        this.options = this.props.names.map(name => ({ value: name, label: name }));
+        this.initialSelection = this.props.selection.map(name => ({value: name, label: name}));
     }
 
     render() {
         return (
             <Select
                 isMulti
-                defaultValue={this.props.selection}
+                placeholder="Select a name to see shifts"
+                defaultValue={this.initialSelection}
                 name="Assignees"
                 options={this.options}
                 className="names-select"
                 classNamePrefix="select"
-                onChange={console.log}
+                onChange={this.onChange.bind(this)}
             />
         )
     }
 
-    private onChange(e: React.FormEvent<HTMLInputElement>) {
-        const {value, checked} = e.currentTarget;
-        this.props.updateFilter({value, checked});
+    private onChange(newSelection: ValueType<NameFilterOption>, actionMeta: ActionMeta<NameFilterOption>) {
+        const valuesWithoutTypeNonsense = ((newSelection || []) as NameFilterOption[]).map(sel => sel.value);
+        console.log("Update Filter", { valuesWithoutTypeNonsense });
+        this.props.updateFilter(valuesWithoutTypeNonsense);
     }
 }
 
@@ -64,15 +73,6 @@ class CalendarComponent extends Component<CalendarProps, { selected: string[] }>
             selected: this.props.initialNameSelection || []
         };
     }
-
-    updateFilter: OnFilterChange = ({value, checked}) => {
-        const selected = checked
-            ? this.state.selected.concat(value)
-            : this.state.selected.filter(currentVal => currentVal !== value);
-
-        this.setState({selected});
-    };
-
     render() {
         const names = getAllMembers(this.props.calendarData);
         const selection = this.state.selected;
@@ -84,7 +84,7 @@ class CalendarComponent extends Component<CalendarProps, { selected: string[] }>
             <Container>
                 <NameFilter
                     names={names}
-                    updateFilter={this.updateFilter.bind(this)}
+                    updateFilter={(newSelection: string[]) => this.setState({selected: newSelection})}
                     selection={selection}
                 />
                 <Calendar
@@ -92,7 +92,7 @@ class CalendarComponent extends Component<CalendarProps, { selected: string[] }>
                     events={events}
                     startAccessor="start"
                     endAccessor="end"
-                    // @ts-ignore (any ideas?)
+                    // @ts-ignore (help)
                     style={{height: 600}}
                     views={["month", "week", "agenda"]}
                 />
