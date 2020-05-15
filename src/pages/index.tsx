@@ -28,7 +28,7 @@ const Index: React.FunctionComponent = () => {
                     schedule. Knowing when you are working should be easy.
                 </p>
                 <SelectFile onRotaUploaded={onUpload}/>
-                <Link to="/setup/">Setup page</Link>
+                or <Link to="/schedule-example">See an example</Link>
                 <Spacer/>
                 <p>
                     This is an open-source project. If you think you can help, get in touch

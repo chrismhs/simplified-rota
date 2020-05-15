@@ -15,6 +15,11 @@ const Container = styled.div`
   font-size: 0.875rem;
 `;
 
+const NameFilterContainer = styled.div`
+  width: max(300px, 50%);
+  padding-bottom: 30px;
+`;
+
 
 type CalendarProps = {
     calendarData: CalendarEntries;
@@ -46,6 +51,7 @@ class NameFilter extends Component<NameFilterProps> {
 
     render() {
         return (
+            <NameFilterContainer>
             <Select
                 isMulti
                 placeholder="Select a name to see shifts"
@@ -56,6 +62,7 @@ class NameFilter extends Component<NameFilterProps> {
                 classNamePrefix="select"
                 onChange={this.onChange.bind(this)}
             />
+            </NameFilterContainer>
         )
     }
 
