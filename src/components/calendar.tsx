@@ -60,7 +60,6 @@ class NameFilter extends Component<NameFilterProps> {
     }
 
     private onChange(newSelection: ValueType<NameFilterOption>, actionMeta: ActionMeta<NameFilterOption>) {
-        console.log( {newSelection});
         const valuesWithoutTypeNonsense = ((newSelection || []) as NameFilterOption[]).map(sel => sel.value);
         this.props.updateFilter(valuesWithoutTypeNonsense);
     }
@@ -77,7 +76,6 @@ class CalendarComponent extends Component<{ rota: Rota }, { filter: string[] }> 
     }
 
     private updateFilter = (newSelection: string[]) => {
-        console.log('updateFilter', { newSelection });
         if (newSelection.length > 0) {
             this.setState({filter: newSelection});
         } else {
