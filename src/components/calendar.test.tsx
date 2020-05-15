@@ -4,29 +4,35 @@ import React from 'react';
 import {expect} from "chai";
 import {Calendar} from "react-big-calendar";
 import Select from "react-select/base";
+import {Rota} from "../../utils/Rota";
 
 describe('Calendar Component', () => {
     describe('Name Filter', () => {
         it('renders all events if nothing is selected', () => {
-            const wrapper = mount(<CalendarComponent calendarData={EXAMPLE_CALENDAR_DATA} initialNameSelection={[]}/>);
+            const wrapper = mount(<CalendarComponent rota={EXAMPLE_CALENDAR_DATA} />);
             expect(getEventIds(wrapper)).to.eql([1, 2, 3]);
         });
 
+        it('initially puts nothing in the name filter', () => {
+            const wrapper = mount(<CalendarComponent rota={EXAMPLE_CALENDAR_DATA} />);
+            expect(wrapper.find('NameFilter').prop('selection')).to.be.empty;
+        });
+
         it('filters events to only those containing the selected assignee', () => {
-            const wrapper = mount(<CalendarComponent calendarData={EXAMPLE_CALENDAR_DATA}/>);
+            const wrapper = mount(<CalendarComponent rota={EXAMPLE_CALENDAR_DATA}/>);
             setNameFilter(wrapper, ['OneOnly']);
             expect(getEventIds(wrapper)).to.eql([1]);
 
         });
 
         it('can filter more than one at once', () => {
-            const wrapper = mount(<CalendarComponent calendarData={EXAMPLE_CALENDAR_DATA}/>);
+            const wrapper = mount(<CalendarComponent rota={EXAMPLE_CALENDAR_DATA}/>);
             setNameFilter(wrapper, ['OneOnly', 'ThreeOnly']);
             expect(getEventIds(wrapper)).to.eql([1, 3]);
         });
 
         it('correctly filters names appearing in multiple events', () => {
-            const wrapper = mount(<CalendarComponent calendarData={EXAMPLE_CALENDAR_DATA}/>);
+            const wrapper = mount(<CalendarComponent rota={EXAMPLE_CALENDAR_DATA}/>);
             setNameFilter(wrapper, ['OneAndTwo']);
             expect(getEventIds(wrapper)).to.eql([1, 2]);
         });
@@ -46,7 +52,7 @@ function getEventIds(wrapper: ReactWrapper) {
         .map((e: any) => e.id);
 }
 
-const EXAMPLE_CALENDAR_DATA = [
+const EXAMPLE_CALENDAR_DATA = new Rota([
     {
         id: 1,
         assignees: ['OneAndTwo', 'OneOnly'],
@@ -71,4 +77,4 @@ const EXAMPLE_CALENDAR_DATA = [
         title: 'Morning Shift',
         desc: 'My awesome morning shift'
     }
-];
+]);

@@ -5,11 +5,12 @@ import Layout from "../components/layout";
 import SEO from "../components/seo";
 import CalendarComponent from "../components/calendar";
 import ErrorPage from "../components/errorPage";
-import {CalendarEntries} from "../../utils/RotaApi";
+import {Rota} from "../../utils/Rota";
 
-function retrieveCalendarData(): CalendarEntries | null {
+function retrieveCalendarData(): Rota | null {
     try {
-        return JSON.parse(atob(sessionStorage.getItem("simplerotas")!!));
+        const entries = JSON.parse(atob(sessionStorage.getItem("simplerotas")!!));
+        return new Rota(entries);
     } catch (e) {
         return null;
     }
@@ -25,7 +26,7 @@ const Schedule: React.FunctionComponent = () => {
         <Layout>
             <SEO title="Schedule"/>
             <h2>Your schedule</h2>
-            <CalendarComponent calendarData={calendarData}/>
+            <CalendarComponent rota={calendarData}/>
             <Link to="/">Go back to the homepage</Link>
         </Layout>
     )

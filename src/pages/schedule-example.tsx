@@ -1,12 +1,12 @@
-import {CalendarEntries} from "../../utils/RotaApi";
 import React from "react";
 import CalendarComponent from "../components/calendar";
 import SEO from "../components/seo";
 import Layout from "../components/layout";
 import {ThreeQuartersWidth} from "../layout/containers";
+import {Rota} from "../../utils/Rota";
 
 // TODO: Use actual data here and link to this page as a sample
-const EXAMPLE_CALENDAR_DATA: CalendarEntries = [
+const EXAMPLE_CALENDAR_DATA = new Rota([
     {
         id: 1,
         assignees: ['Joe Bloggs', 'Fred Durst'],
@@ -23,14 +23,14 @@ const EXAMPLE_CALENDAR_DATA: CalendarEntries = [
         assignees: ['Joe Bloggs', 'David Davies'],
         desc: 'My awesome morning shift'
     }
-];
+]);
 
 const ScheduleExample: React.FunctionComponent = () => (
     <Layout>
         <SEO title="Example Schedule"/>
         <ThreeQuartersWidth>
             <h1>Example Schedule</h1>
-            <CalendarComponent calendarData={EXAMPLE_CALENDAR_DATA}/>
+            <CalendarComponent rota={EXAMPLE_CALENDAR_DATA}/>
         </ThreeQuartersWidth>
     </Layout>
 );
