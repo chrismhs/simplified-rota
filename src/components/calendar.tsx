@@ -54,7 +54,7 @@ class NameFilter extends Component<NameFilterProps> {
             <NameFilterContainer>
             <Select
                 isMulti
-                placeholder="Select a name to see shifts"
+                placeholder="Select a name to filter"
                 defaultValue={this.initialSelection}
                 name="Assignees"
                 options={this.options}
@@ -77,13 +77,16 @@ class NameFilter extends Component<NameFilterProps> {
 class CalendarComponent extends Component<CalendarProps, { selected: string[] }> {
     constructor(props: CalendarProps) {
         super(props);
+
         this.state = {
-            selected: this.props.initialNameSelection || []
+            selected: this.props?.initialNameSelection || []
         };
     }
     render() {
         const names = getAllMembers(this.props.calendarData);
-        const selection = this.state.selected;
+        const selection = this.state.selected?.length
+            ? this.state.selected
+            : getAllMembers(this.props.calendarData);
 
         const events = this.props.calendarData
             .filter(entry => entry.assignees.some(assignee => selection.includes(assignee)));

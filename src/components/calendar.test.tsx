@@ -7,9 +7,10 @@ import Select from "react-select/base";
 
 describe('Calendar Component', () => {
     describe('Name Filter', () => {
-        it('renders no events if nothing is selected', () => {
+        it('renders all events if nothing is selected', () => {
             const wrapper = mount(<CalendarComponent calendarData={EXAMPLE_CALENDAR_DATA} initialNameSelection={[]}/>);
-            expect(wrapper.find(Calendar).prop('events')).to.have.length(0);
+
+            expect(getEventIds(wrapper)).to.eql([1, 2, 3]);
         });
 
         it('filters events to only those containing the selected assignee', () => {
@@ -17,10 +18,7 @@ describe('Calendar Component', () => {
 
             setNameFilter(wrapper, ['OneOnly']);
 
-            const ids = wrapper.find(Calendar)
-                .prop('events')
-                .map((e: any) => e.id);
-            expect(ids).to.eql([1]);
+            expect(getEventIds(wrapper)).to.eql([1]);
 
         });
 
@@ -29,10 +27,7 @@ describe('Calendar Component', () => {
 
             setNameFilter(wrapper, ['OneOnly', 'ThreeOnly']);
 
-            const ids = wrapper.find(Calendar)
-                .prop('events')
-                .map((e: any) => e.id);
-            expect(ids).to.eql([1, 3]);
+            expect(getEventIds(wrapper)).to.eql([1, 3]);
         });
 
         it('correctly filters names appearing in multiple events', () => {
@@ -40,10 +35,7 @@ describe('Calendar Component', () => {
 
             setNameFilter(wrapper, ['OneAndTwo']);
 
-            const ids = wrapper.find(Calendar)
-                .prop('events')
-                .map((e: any) => e.id);
-            expect(ids).to.eql([1, 2]);
+            expect(getEventIds(wrapper)).to.eql([1, 2]);
         });
     });
 });
@@ -53,6 +45,12 @@ function setNameFilter(filter: ReactWrapper, values: string[]) {
     const filterValues = values.map(val => ({value: val, label: val}));
     onFilterChange(filterValues);
     filter.update();
+}
+
+function getEventIds(wrapper: ReactWrapper) {
+    return wrapper.find(Calendar)
+        .prop('events')
+        .map((e: any) => e.id);
 }
 
 const EXAMPLE_CALENDAR_DATA = [
