@@ -21,7 +21,6 @@ const Schedule: React.FunctionComponent = () => {
         return <ErrorPage/>;
     }
 
-    console.log({calendarData});
     return (
         <Layout>
             <SEO title="Schedule"/>

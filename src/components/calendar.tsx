@@ -20,7 +20,6 @@ const NameFilterContainer = styled.div`
   padding-bottom: 30px;
 `;
 
-
 type CalendarProps = {
     calendarData: CalendarEntries;
     initialNameSelection?: string[];
@@ -67,9 +66,7 @@ class NameFilter extends Component<NameFilterProps> {
     }
 
     private onChange(newSelection: ValueType<NameFilterOption>, actionMeta: ActionMeta<NameFilterOption>) {
-        console.log({ newSelection, actionMeta });
         const valuesWithoutTypeNonsense = ((newSelection || []) as NameFilterOption[]).map(sel => sel.value);
-        console.log("Update Filter", { valuesWithoutTypeNonsense });
         this.props.updateFilter(valuesWithoutTypeNonsense);
     }
 }
@@ -90,7 +87,6 @@ class CalendarComponent extends Component<CalendarProps, { selected: string[] }>
 
         const events = this.props.calendarData
             .filter(entry => entry.assignees.some(assignee => selection.includes(assignee)));
-        console.log('render with ', {events});
         return (
             <Container>
                 <NameFilter

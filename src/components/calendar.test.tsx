@@ -9,32 +9,25 @@ describe('Calendar Component', () => {
     describe('Name Filter', () => {
         it('renders all events if nothing is selected', () => {
             const wrapper = mount(<CalendarComponent calendarData={EXAMPLE_CALENDAR_DATA} initialNameSelection={[]}/>);
-
             expect(getEventIds(wrapper)).to.eql([1, 2, 3]);
         });
 
         it('filters events to only those containing the selected assignee', () => {
             const wrapper = mount(<CalendarComponent calendarData={EXAMPLE_CALENDAR_DATA}/>);
-
             setNameFilter(wrapper, ['OneOnly']);
-
             expect(getEventIds(wrapper)).to.eql([1]);
 
         });
 
         it('can filter more than one at once', () => {
             const wrapper = mount(<CalendarComponent calendarData={EXAMPLE_CALENDAR_DATA}/>);
-
             setNameFilter(wrapper, ['OneOnly', 'ThreeOnly']);
-
             expect(getEventIds(wrapper)).to.eql([1, 3]);
         });
 
         it('correctly filters names appearing in multiple events', () => {
             const wrapper = mount(<CalendarComponent calendarData={EXAMPLE_CALENDAR_DATA}/>);
-
             setNameFilter(wrapper, ['OneAndTwo']);
-
             expect(getEventIds(wrapper)).to.eql([1, 2]);
         });
     });

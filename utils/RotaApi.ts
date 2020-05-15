@@ -7,8 +7,6 @@ export interface Activity {
   }
 }
 
-export type Rota = Activity[]
-
 export type CalendarEntry = {
   assignees: string[],
   id: number,
