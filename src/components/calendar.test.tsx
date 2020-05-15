@@ -12,22 +12,22 @@ describe('Calendar Component', () => {
             expect(wrapper.find(Calendar).prop('events')).to.have.length(0);
         });
 
-        xit('filters events to only those containing the selected assignee', () => {
+        it('filters events to only those containing the selected assignee', () => {
             const wrapper = mount(<CalendarComponent calendarData={EXAMPLE_CALENDAR_DATA}/>);
 
-            addNameToFilter(wrapper, 'OneOnly');
+            setNameFilter(wrapper, ['OneOnly']);
 
-            const eventIds = wrapper.find(Calendar)
+            const ids = wrapper.find(Calendar)
                 .prop('events')
                 .map((e: any) => e.id);
-            expect(eventIds).to.eql([1]);
+            expect(ids).to.eql([1]);
+
         });
 
-        xit('can filter more than one at once', () => {
+        it('can filter more than one at once', () => {
             const wrapper = mount(<CalendarComponent calendarData={EXAMPLE_CALENDAR_DATA}/>);
 
-            addNameToFilter(wrapper, 'OneOnly');
-            addNameToFilter(wrapper, 'ThreeOnly');
+            setNameFilter(wrapper, ['OneOnly', 'ThreeOnly']);
 
             const ids = wrapper.find(Calendar)
                 .prop('events')
@@ -35,10 +35,10 @@ describe('Calendar Component', () => {
             expect(ids).to.eql([1, 3]);
         });
 
-        xit('correctly filters names appearing in multiple events', () => {
+        it('correctly filters names appearing in multiple events', () => {
             const wrapper = mount(<CalendarComponent calendarData={EXAMPLE_CALENDAR_DATA}/>);
 
-            addNameToFilter(wrapper, 'OneAndTwo');
+            setNameFilter(wrapper, ['OneAndTwo']);
 
             const ids = wrapper.find(Calendar)
                 .prop('events')
@@ -48,9 +48,11 @@ describe('Calendar Component', () => {
     });
 });
 
-function addNameToFilter(wrapper: ReactWrapper<any, any, React.Component>, name: string) {
-    // TODO
-    wrapper.find(Select).props().selectOption(name);
+function setNameFilter(filter: ReactWrapper, values: string[]) {
+    const onFilterChange = filter.find(Select).prop('onChange');
+    const filterValues = values.map(val => ({value: val, label: val}));
+    onFilterChange(filterValues);
+    filter.update();
 }
 
 const EXAMPLE_CALENDAR_DATA = [
