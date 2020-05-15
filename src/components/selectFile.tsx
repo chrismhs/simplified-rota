@@ -9,7 +9,6 @@ const SubmitButton = styled.button`
   background-color: white;
   border-radius: 4px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
-  margin-bottom: 24px;
   border: none;
   cursor: pointer;
   transition: box-shadow 0.2s ease-in-out;

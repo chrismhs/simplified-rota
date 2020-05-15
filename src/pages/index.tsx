@@ -13,6 +13,16 @@ const Spacer = styled.div`
   height: 50px;
 `;
 
+const UploadWrapper = styled.div`
+  display: flex;
+`;
+
+const LinkToExample = styled.div`
+  margin: auto;
+  margin-left: 20px;
+  font-size: .9em;
+`;
+
 const Index: React.FunctionComponent = () => {
     const onUpload: OnScheduleUploaded = async schedule => {
         sessionStorage.setItem("simplerotas", btoa(JSON.stringify(schedule)));
@@ -27,8 +37,12 @@ const Index: React.FunctionComponent = () => {
                     A tool that helps healthcare workers get a simple version of their work
                     schedule. Knowing when you are working should be easy.
                 </p>
-                <SelectFile onRotaUploaded={onUpload}/>
-                or <Link to="/schedule-example">See an example</Link>
+                <UploadWrapper>
+                    <SelectFile onRotaUploaded={onUpload}/>
+                    <LinkToExample>
+                        or <Link to="/schedule-example">see an example</Link>
+                    </LinkToExample>
+                </UploadWrapper>
                 <Spacer/>
                 <p>
                     This is an open-source project. If you think you can help, get in touch
