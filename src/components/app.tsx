@@ -1,10 +1,10 @@
-import {TwoThirdsWidth} from "../layout/containers";
-import {SelectFile} from "./selectFile";
-import {Link} from "gatsby";
-import React, {useState} from "react";
+import { TwoThirdsWidth } from "../layout/containers";
+import { SelectFile } from "./selectFile";
+import { Link } from "gatsby";
+import React, { useState } from "react";
 import styled from "styled-components";
-import {RotaApi} from "../utils/RotaApi";
-import {Rota} from "../utils/Rota";
+import { RotaApi } from "../utils/RotaApi";
+import { Rota } from "../utils/Rota";
 import CalendarComponent from "./calendar";
 
 export const Spacer = styled.div`
@@ -32,12 +32,23 @@ type AppState = {
 
 const App: React.FunctionComponent<AppProps> = ({ api }) => {
   const [{ rota }, setState] = useState<AppState>({});
-  const onUpload = (rota: Rota) => setState({ rota });
+  const onUploadSuccess = (rota: Rota) => setState({ rota });
+  const onUploadError = (reason?: string) => {
+    if (reason) console.warn("API failed", reason);
+    // TODO use react-modal instead
+    let message = "Sorry, we couldn't understand this rota.\n";
+    if (reason) {
+      message += "The system had the following to say: " + reason;
+    }
+    alert(message);
+    setState({});
+  };
+
   if (rota) {
     return (
       <div>
         <h2>Your schedule</h2>
-        <CalendarComponent rota={rota} />
+        <CalendarComponent rota={rota!!} />
       </div>
     );
   } else {
@@ -49,7 +60,11 @@ const App: React.FunctionComponent<AppProps> = ({ api }) => {
           work schedule. Knowing when you are working should be easy.
         </p>
         <UploadWrapper>
-          <SelectFile onRotaUploaded={onUpload} rotaApi={api} />
+          <SelectFile
+            onRotaUploadedSuccessfully={onUploadSuccess}
+            onUploadError={onUploadError}
+            rotaApi={api}
+          />
           <LinkToExample>
             or <Link to="/schedule-example">see an example</Link>
           </LinkToExample>

@@ -28,7 +28,7 @@ export class RotaApi {
     if (response.status !== 200) {
       const { error } = getErrorTextIfPossible(await response.text());
       if (error) throw new RotaApiError(error);
-      throw new Error('Failed to fetch rota for unknown reason');
+      throw new Error('Unknown error');
     }
     const { rota } = JSON.parse(await response.text());
     return this.mapRotaToCalendarData(rota);

@@ -8,6 +8,7 @@ chai.use(chaiAsPromised);
 describe("Rota Api", () => {
   it("fetches a rota", async () => {
     const mockApiResponse = {
+      status: 200,
       text: () =>
         JSON.stringify({
           rota: [
