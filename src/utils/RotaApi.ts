@@ -10,8 +10,10 @@ export interface Activity {
   };
 }
 
+type Fetcher = (formWithFile: any) => Promise<any>;
+
 export class RotaApi {
-  constructor(private fetcher: any = actualFetch) {}
+  constructor(private fetcher: Fetcher = actualFetch) {}
 
   async fetchRota(file: File): Promise<Rota> {
     const form = new FormData();

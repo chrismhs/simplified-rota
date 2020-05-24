@@ -23,7 +23,7 @@ describe("Rota Api", () => {
         }),
     };
 
-    const api = new RotaApi(() => mockApiResponse);
+    const api = new RotaApi(() => Promise.resolve(mockApiResponse));
 
     expect(await api.fetchRota({} as File)).to.eql(
       new Rota([
