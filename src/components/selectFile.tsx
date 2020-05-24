@@ -36,7 +36,7 @@ export const SelectFile: React.FunctionComponent<{
   };
   return (
     <Fragment>
-      <SubmitButton onClick={() => document.getElementById("myfile")?.click()}>
+      <SubmitButton id="selectFile__submit" onClick={() => document.getElementById("myfile")?.click()}>
         Upload your rota
       </SubmitButton>
       {/*todo check file types*/}

@@ -60,30 +60,3 @@ describe("Rota", () => {
     });
   });
 });
-
-const EXAMPLE_CALENDAR_DATA = [
-  {
-    id: 1,
-    assignees: ["OneAndTwo", "OneOnly"],
-    start: new Date("2020-05-09 08:00:00"),
-    end: new Date("2020-05-09 15:00:00"),
-    title: "Morning Shift",
-    desc: "My awesome morning shift",
-  },
-  {
-    id: 2,
-    assignees: ["OneAndTwo", "TwoAndThree"],
-    start: new Date("2020-05-09 08:00:00"),
-    end: new Date("2020-05-09 15:00:00"),
-    title: "Morning Shift",
-    desc: "My awesome morning shift",
-  },
-  {
-    id: 3,
-    assignees: ["TwoAndThree", "ThreeOnly"],
-    start: new Date("2020-05-09 08:00:00"),
-    end: new Date("2020-05-09 15:00:00"),
-    title: "Morning Shift",
-    desc: "My awesome morning shift",
-  },
-];
