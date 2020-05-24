@@ -1,10 +1,10 @@
-import { TwoThirdsWidth } from "../layout/containers";
-import { SelectFile } from "./selectFile";
-import { Link } from "gatsby";
-import React, { useState } from "react";
+import {TwoThirdsWidth} from "../layout/containers";
+import {SelectFile} from "./selectFile";
+import {Link} from "gatsby";
+import React, {useState} from "react";
 import styled from "styled-components";
-import { CalendarEntry, RotaApi } from "../utils/RotaApi";
-import { Rota } from "../utils/Rota";
+import {RotaApi} from "../utils/RotaApi";
+import {Rota} from "../utils/Rota";
 import CalendarComponent from "./calendar";
 
 const Spacer = styled.div`

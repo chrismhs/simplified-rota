@@ -1,11 +1,12 @@
 import Index from "../../src/pages";
 import React from "react";
 import {mount} from "enzyme";
-import {CalendarEntry, RotaApi} from "../../src/utils/RotaApi";
+import {RotaApi} from "../../src/utils/RotaApi";
 import { expect } from "chai";
 import {Calendar} from "react-big-calendar";
 import App from "../../src/components/app";
 import {SelectFile} from "../../src/components/selectFile";
+import {CalendarEntry} from "../../src/utils/Rota";
 
 // describe("Upload File", () => {
 //

@@ -1,6 +1,9 @@
 import {RotaApi} from "../../src/utils/RotaApi";
-import { expect } from "chai";
+import chai, { expect } from "chai";
 import {Rota} from "../../src/utils/Rota";
+import chaiAsPromised from 'chai-as-promised';
+
+chai.use(chaiAsPromised);
 
 describe('Rota Api', () => {
   it('fetches a rota', async () => {
@@ -32,5 +35,10 @@ describe('Rota Api', () => {
         end: new Date('2020-01-01 13:00:00')
       }
     ]));
+  });
+
+  it('throws on error', async () => {
+    const api = new RotaApi(() => { throw new Error('something terrible happened'); })
+      await expect(api.fetchRota({} as File)).to.be.rejectedWith('something terrible happened');
   });
 });

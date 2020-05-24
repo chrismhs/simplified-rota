@@ -1,4 +1,12 @@
-import { CalendarEntry } from "./RotaApi";
+export type CalendarEntry = {
+  assignees: string[];
+  id: number;
+  title: string;
+  allDay?: boolean;
+  start: Date;
+  end: Date;
+  desc?: string;
+};
 
 export class Rota {
   constructor(private readonly entries: CalendarEntry[]) {}
