@@ -23,11 +23,12 @@ const FileInput = styled.input`
 `;
 export const SelectFile: React.FunctionComponent<{
   onRotaUploaded: OnScheduleUploaded;
-}> = ({ onRotaUploaded }) => {
+  rotaApi?: RotaApi;
+}> = ({ onRotaUploaded, rotaApi = new RotaApi() }) => {
   const onChange = async (e: React.FormEvent<HTMLInputElement>) => {
     const file = e.currentTarget.files?.item(0);
     if (file) {
-      const response = await new RotaApi().getCalendarData(file);
+      const response = await rotaApi.getCalendarData(file);
       if (!response.error) {
         onRotaUploaded(response.calendarData);
       }

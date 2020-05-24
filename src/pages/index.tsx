@@ -7,6 +7,7 @@ import { SelectFile } from "../components/selectFile";
 import SEO from "../components/seo";
 import { TwoThirdsWidth } from "../layout/containers";
 import { OnScheduleUploaded } from "../utils/Types";
+import {RotaApi} from "../utils/RotaApi";
 
 const Spacer = styled.div`
   display: block;
@@ -23,7 +24,7 @@ const LinkToExample = styled.div`
   font-size: 0.9em;
 `;
 
-const Index: React.FunctionComponent = () => {
+const Index: React.FunctionComponent<{api: RotaApi}> = ({ api = new RotaApi()}) => {
   const onUpload: OnScheduleUploaded = async (schedule) => {
     sessionStorage.setItem("simplerotas", btoa(JSON.stringify(schedule)));
     await navigate("/schedule");
