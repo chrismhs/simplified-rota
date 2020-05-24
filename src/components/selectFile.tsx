@@ -1,7 +1,7 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
-import {RotaApi} from "../utils/RotaApi";
-import {OnScheduleUploaded} from "../utils/Types";
+import { RotaApi } from "../utils/RotaApi";
+import { OnScheduleUploaded } from "../utils/Types";
 
 const SubmitButton = styled.button`
   display: flex;
@@ -21,21 +21,31 @@ const SubmitButton = styled.button`
 const FileInput = styled.input`
   display: none;
 `;
-export const SelectFile: React.FunctionComponent<{ onRotaUploaded: OnScheduleUploaded }> = ({onRotaUploaded}) => {
-    const onChange = async (e: React.FormEvent<HTMLInputElement>) => {
-        const file = e.currentTarget.files?.item(0);
-        if (file) {
-            const response = await new RotaApi().getCalendarData(file);
-            if (!response.error) {
-                onRotaUploaded(response.calendarData);
-            }
-        }
-    };
-    return (
-        <Fragment>
-            <SubmitButton onClick={() => document.getElementById('myfile')?.click()}>Upload your rota</SubmitButton>
-            {/*todo check file types*/}
-            <FileInput type="file" id="myfile" name="myfile" accept=".xlsx" onChange={onChange}/>
-        </Fragment>
-    )
+export const SelectFile: React.FunctionComponent<{
+  onRotaUploaded: OnScheduleUploaded;
+}> = ({ onRotaUploaded }) => {
+  const onChange = async (e: React.FormEvent<HTMLInputElement>) => {
+    const file = e.currentTarget.files?.item(0);
+    if (file) {
+      const response = await new RotaApi().getCalendarData(file);
+      if (!response.error) {
+        onRotaUploaded(response.calendarData);
+      }
+    }
+  };
+  return (
+    <Fragment>
+      <SubmitButton onClick={() => document.getElementById("myfile")?.click()}>
+        Upload your rota
+      </SubmitButton>
+      {/*todo check file types*/}
+      <FileInput
+        type="file"
+        id="myfile"
+        name="myfile"
+        accept=".xlsx"
+        onChange={onChange}
+      />
+    </Fragment>
+  );
 };

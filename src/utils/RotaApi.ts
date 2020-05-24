@@ -4,40 +4,42 @@ export interface Activity {
   time: {
     start: Date;
     end: Date;
-  }
+  };
 }
 
 export type CalendarEntry = {
-  assignees: string[],
-  id: number,
-  title: string,
-  allDay?: boolean,
-  start: Date,
-  end: Date,
-  desc?: string,
-}
+  assignees: string[];
+  id: number;
+  title: string;
+  allDay?: boolean;
+  start: Date;
+  end: Date;
+  desc?: string;
+};
 
-export const ROTA_API = process.env.ROTA_API || 'http://localhost:5000';
+export const ROTA_API = process.env.ROTA_API || "http://localhost:5000";
 
 export class RotaApi {
   constructor(private fetcher: any = actualFetch) {}
 
-  async getCalendarData(file: File): Promise<{ calendarData: CalendarEntry[], error?: string }> {
+  async getCalendarData(
+    file: File
+  ): Promise<{ calendarData: CalendarEntry[]; error?: string }> {
     try {
       const form = new FormData();
-      form.append('file', file);
+      form.append("file", file);
       const responseFromApi = await this.fetcher(form);
       const body = await responseFromApi.text();
       const parsed = JSON.parse(body);
       const calendarData = this.mapRotaToCalendarData(parsed.rota);
-      return {calendarData, error: parsed.error}
+      return { calendarData, error: parsed.error };
     } catch (e) {
-      return {calendarData: [], error: e.message}
+      return { calendarData: [], error: e.message };
     }
   }
 
   private mapRotaToCalendarData(rota: Activity[]): CalendarEntry[] {
-    return rota.map(({name, assignees, time}, index) => {
+    return rota.map(({ name, assignees, time }, index) => {
       return {
         allDay: false,
         assignees,
@@ -45,9 +47,9 @@ export class RotaApi {
         end: new Date(time.end),
         start: new Date(time.start),
         id: index,
-        title: name
-      }
-    })
+        title: name,
+      };
+    });
   }
 }
 
@@ -58,7 +60,7 @@ export const actualFetch = async (formWithFile: any): Promise<Response> => {
     redirect: "error",
     body: formWithFile,
     headers: {
-      "Accept": "application/json"
-    }
-  })
+      Accept: "application/json",
+    },
+  });
 };

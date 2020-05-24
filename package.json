@@ -59,7 +59,7 @@
     "enzyme-adapter-react-16": "latest",
     "jsdom": "^16.2.2",
     "mocha": "^7.1.1",
-    "prettier": "2.0.4"
+    "prettier": "^2.0.4"
   },
   "mocha": {
     "require": "test/setupEnzyme.js"
