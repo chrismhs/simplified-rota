@@ -62,7 +62,7 @@
     "prettier": "2.0.4"
   },
   "mocha": {
-    "require": "src/setupEnzyme.js"
+    "require": "test/setupEnzyme.js"
   },
   "keywords": [
     "gatsby"
