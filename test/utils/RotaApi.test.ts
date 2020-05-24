@@ -1,4 +1,4 @@
-import { RotaApi } from "../../src/utils/RotaApi";
+import {RotaApi, RotaApiError} from "../../src/utils/RotaApi";
 import chai, { expect } from "chai";
 import { Rota } from "../../src/utils/Rota";
 import chaiAsPromised from "chai-as-promised";
@@ -40,12 +40,30 @@ describe("Rota Api", () => {
     );
   });
 
-  it("throws on error", async () => {
+  it("throws on unspecified error", async () => {
     const api = new RotaApi(() => {
       throw new Error("something terrible happened");
     });
     await expect(api.fetchRota({} as File)).to.be.rejectedWith(
       "something terrible happened"
     );
+  });
+
+  it('throws custom error on non-2xx status code preserving error text', async () => {
+    const api = new RotaApi(async () => ({
+      status: 500,
+      text: () => JSON.stringify({error: 'API fell over'})
+    }));
+    await expect(api.fetchRota({} as File))
+      .to.be.rejectedWith(RotaApiError, 'API fell over');
+  });
+
+  it('supplies canned message if no error text was available', async () => {
+    const api = new RotaApi(async () => ({
+      status: 500,
+      text: () => ''
+    }));
+    await expect(api.fetchRota({} as File))
+      .to.be.rejectedWith(/unknown/);
   });
 });

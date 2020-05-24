@@ -12,6 +12,12 @@ export interface Activity {
 
 type Fetcher = (formWithFile: any) => Promise<any>;
 
+export class RotaApiError extends Error {
+  constructor(message: string) {
+    super(message);
+  }
+}
+
 export class RotaApi {
   constructor(private fetcher: Fetcher = actualFetch) {}
 
@@ -19,6 +25,11 @@ export class RotaApi {
     const form = new FormData();
     form.append("file", file);
     const response = await this.fetcher(form);
+    if (response.status !== 200) {
+      const { error } = getErrorTextIfPossible(await response.text());
+      if (error) throw new RotaApiError(error);
+      throw new Error('Failed to fetch rota for unknown reason');
+    }
     const { rota } = JSON.parse(await response.text());
     return this.mapRotaToCalendarData(rota);
   }
@@ -40,7 +51,7 @@ export class RotaApi {
   }
 }
 
-export const actualFetch = async (formWithFile: any): Promise<Response> => {
+const actualFetch = async (formWithFile: any): Promise<Response> => {
   return await fetch(PARSE_ENDPOINT, {
     method: "POST",
     mode: "cors",
@@ -51,3 +62,11 @@ export const actualFetch = async (formWithFile: any): Promise<Response> => {
     },
   });
 };
+
+function getErrorTextIfPossible(body: string) {
+  try {
+    return JSON.parse(body);
+  } catch (e) {
+    return {};
+  }
+}
