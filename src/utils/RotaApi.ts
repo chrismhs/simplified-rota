@@ -16,8 +16,9 @@ export class RotaApi {
   async fetchRota(file: File): Promise<Rota> {
     const form = new FormData();
     form.append("file", file);
-    const parsed = JSON.parse(await this.fetcher(form).text());
-    return this.mapRotaToCalendarData(parsed.rota);
+    const response = await this.fetcher(form);
+    const { rota } = JSON.parse(await response.text());
+    return this.mapRotaToCalendarData(rota);
   }
 
   private mapRotaToCalendarData(activities: Activity[]): Rota {
