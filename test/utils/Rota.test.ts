@@ -1,6 +1,6 @@
-import {Rota} from "./Rota";
+import {Rota} from "../../src/utils/Rota";
 import {expect} from "chai";
-import {CalendarEntry} from "./RotaApi";
+import {CalendarEntry} from "../../src/utils/RotaApi";
 
 describe('Rota', () => {
     describe('getAllStaff', () => {

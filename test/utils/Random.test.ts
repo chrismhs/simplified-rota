@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {Random} from "./Random";
+import {Random} from "../../src/utils/Random";
 
 describe('Random', () => {
   it('produces a random number between a min and max', () => {

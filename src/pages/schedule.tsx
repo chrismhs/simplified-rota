@@ -5,7 +5,7 @@ import Layout from "../components/layout";
 import SEO from "../components/seo";
 import CalendarComponent from "../components/calendar";
 import ErrorPage from "../components/errorPage";
-import {Rota} from "../../utils/Rota";
+import {Rota} from "../utils/Rota";
 
 function retrieveCalendarData(): Rota | null {
     try {

@@ -1,10 +1,10 @@
 import {mount, ReactWrapper} from "enzyme";
-import CalendarComponent from "./calendar";
+import CalendarComponent from "../../src/components/calendar";
 import React from 'react';
 import {expect} from "chai";
 import {Calendar} from "react-big-calendar";
 import Select from "react-select/base";
-import {Rota} from "../../utils/Rota";
+import {Rota} from "../../src/utils/Rota";
 
 describe('Calendar Component', () => {
     describe('Name Filter', () => {

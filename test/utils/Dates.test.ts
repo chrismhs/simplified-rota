@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {Dates} from "./Dates";
+import {Dates} from "../../src/utils/Dates";
 
 describe('Dates', () => {
   describe('dayRange', () => {

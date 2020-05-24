@@ -5,7 +5,7 @@ import moment from "moment";
 import "moment/locale/en-gb";
 import Select, {OptionsType} from "react-select";
 import {ActionMeta, ValueType} from "react-select/src/types";
-import {Rota} from "../../utils/Rota";
+import {Rota} from "../utils/Rota";
 
 // Setup the localizer by providing the moment (or globalize) Object to the correct localizer.
 const localizer = momentLocalizer(moment); // or globalizeLocalizer

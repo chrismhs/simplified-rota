@@ -3,7 +3,7 @@ import CalendarComponent from "../components/calendar";
 import SEO from "../components/seo";
 import Layout from "../components/layout";
 import {ThreeQuartersWidth} from "../layout/containers";
-import {Rota} from "../../utils/Rota";
+import {Rota} from "../utils/Rota";
 
 // TODO: Use actual data here and link to this page as a sample
 const EXAMPLE_CALENDAR_DATA = new Rota([

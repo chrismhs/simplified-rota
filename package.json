@@ -14,7 +14,7 @@
     "start": "gatsby develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "test": "mocha './{,!(node_modules)/**}/*.test.ts' --require ts-node/register"
+    "test": "mocha './test/**/*.test.ts' --require ts-node/register"
   },
   "dependencies": {
     "@types/react-select": "^3.0.12",
