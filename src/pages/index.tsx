@@ -6,10 +6,10 @@ import {RotaApi} from "../utils/RotaApi";
 import App from "../components/app";
 
 
-const Index: React.FunctionComponent<{api?: RotaApi}> = ({ api = new RotaApi()}) => {
+const Index: React.FunctionComponent = () => {
   return (
     <Layout>
-      <SEO title="Home" />
+      <SEO title="Simple Rotas" />
       <App api={new RotaApi()} />
     </Layout>
   );

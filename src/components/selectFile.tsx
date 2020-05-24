@@ -21,10 +21,13 @@ const SubmitButton = styled.button`
 const FileInput = styled.input`
   display: none;
 `;
-export const SelectFile: React.FunctionComponent<{
+
+type SelectFileProps = {
   onRotaUploaded: OnScheduleUploaded;
-  rotaApi?: RotaApi;
-}> = ({ onRotaUploaded, rotaApi = new RotaApi() }) => {
+  rotaApi: RotaApi;
+};
+
+export const SelectFile: React.FunctionComponent<SelectFileProps> = ({ onRotaUploaded, rotaApi }) => {
   const onChange = async (e: React.FormEvent<HTMLInputElement>) => {
     const file = e.currentTarget.files?.item(0);
     if (file) {

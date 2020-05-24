@@ -1,12 +1,11 @@
-import SEO from "./seo";
-import { TwoThirdsWidth } from "../layout/containers";
-import { SelectFile } from "./selectFile";
-import {Link, navigate} from "gatsby";
-import Layout from "./layout";
-import React from "react";
+import {TwoThirdsWidth} from "../layout/containers";
+import {SelectFile} from "./selectFile";
+import {Link} from "gatsby";
+import React, {useState} from "react";
 import styled from "styled-components";
-import { OnScheduleUploaded } from "../utils/Types";
-import { RotaApi } from "../utils/RotaApi";
+import {CalendarEntry, RotaApi} from "../utils/RotaApi";
+import {Rota} from "../utils/Rota";
+import CalendarComponent from "./calendar";
 
 const Spacer = styled.div`
   display: block;
@@ -25,36 +24,45 @@ const LinkToExample = styled.div`
 
 type AppProps = {
   api: RotaApi;
-  omitLink?: boolean;
 };
 
-const App: React.FunctionComponent<AppProps> = ({ api, omitLink }) => {
-  const onUpload: OnScheduleUploaded = async (schedule) => {
-    sessionStorage.setItem("simplerotas", btoa(JSON.stringify(schedule)));
-    await navigate("/schedule");
-  };
-  const linkToExample = omitLink
-    ? <></>
-    : <LinkToExample>or <Link to="/schedule-example">see an example</Link></LinkToExample>;
+type AppState = {
+  rota?: Rota;
+};
 
-  return (
-    <TwoThirdsWidth>
-      <h1>Taking some of the stress out of healthcare rotas</h1>
-      <p>
-        A tool that helps healthcare workers get a simple version of their work
-        schedule. Knowing when you are working should be easy.
-      </p>
-      <UploadWrapper>
-        <SelectFile onRotaUploaded={onUpload} rotaApi={api}/>
-        {linkToExample}
-      </UploadWrapper>
-      <Spacer/>
-      <p>
-        This is an open-source project. If you think you can help, get in touch
-        or head over to the GitHub page.
-      </p>
-    </TwoThirdsWidth>
-  );
+const App: React.FunctionComponent<AppProps> = ({ api }) => {
+  const [state, setState] = useState<AppState>({});
+  const clearState = () => setState({});
+  const onUpload = (schedule: CalendarEntry[]) => setState({rota: new Rota(schedule)});
+  if (state.rota) {
+    return (
+      <div>
+        <h2>Your schedule</h2>
+        <CalendarComponent rota={state.rota} />
+      </div>
+    );
+  } else {
+    return (
+      <TwoThirdsWidth>
+        <h1>Taking some of the stress out of healthcare rotas</h1>
+        <p>
+          A tool that helps healthcare workers get a simple version of their
+          work schedule. Knowing when you are working should be easy.
+        </p>
+        <UploadWrapper>
+          <SelectFile onRotaUploaded={onUpload} rotaApi={api} />
+          <LinkToExample>
+            or <Link to="/schedule-example">see an example</Link>
+          </LinkToExample>
+        </UploadWrapper>
+        <Spacer />
+        <p>
+          This is an open-source project. If you think you can help, get in
+          touch or head over to the GitHub page.
+        </p>
+      </TwoThirdsWidth>
+    );
+  }
 };
 
 export default App;
