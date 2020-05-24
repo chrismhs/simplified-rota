@@ -1,3 +1,5 @@
+import {Rota} from "./Rota";
+
 export interface Activity {
   name: string;
   assignees: string[];
@@ -22,24 +24,21 @@ export const ROTA_API = process.env.ROTA_API || "http://localhost:5000";
 export class RotaApi {
   constructor(private fetcher: any = actualFetch) {}
 
-  async getCalendarData(
+  async fetchRota(
     file: File
-  ): Promise<{ calendarData: CalendarEntry[]; error?: string }> {
+  ): Promise<Rota> {
     try {
       const form = new FormData();
       form.append("file", file);
-      const responseFromApi = await this.fetcher(form);
-      const body = await responseFromApi.text();
-      const parsed = JSON.parse(body);
-      const calendarData = this.mapRotaToCalendarData(parsed.rota);
-      return { calendarData, error: parsed.error };
+      const parsed = JSON.parse(await this.fetcher(form).text());
+      return this.mapRotaToCalendarData(parsed.rota);
     } catch (e) {
-      return { calendarData: [], error: e.message };
+      return new Rota([]);
     }
   }
 
-  private mapRotaToCalendarData(rota: Activity[]): CalendarEntry[] {
-    return rota.map(({ name, assignees, time }, index) => {
+  private mapRotaToCalendarData(activities: Activity[]): Rota {
+    return new Rota(activities.map(({ name, assignees, time }, index) => {
       return {
         allDay: false,
         assignees,
@@ -49,7 +48,7 @@ export class RotaApi {
         id: index,
         title: name,
       };
-    });
+    }));
   }
 }
 

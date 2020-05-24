@@ -1,3 +1,3 @@
-import { CalendarEntry } from "./RotaApi";
+import {Rota} from "./Rota";
 
-export type OnScheduleUploaded = (schedule: CalendarEntry[]) => void;
+export type OnScheduleUploaded = (schedule: Rota) => void;

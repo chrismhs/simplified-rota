@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import styled from "styled-components";
 import { RotaApi } from "../utils/RotaApi";
 import { OnScheduleUploaded } from "../utils/Types";
+import {Rota} from "../utils/Rota";
 
 const SubmitButton = styled.button`
   display: flex;
@@ -31,10 +32,8 @@ export const SelectFile: React.FunctionComponent<SelectFileProps> = ({ onRotaUpl
   const onChange = async (e: React.FormEvent<HTMLInputElement>) => {
     const file = e.currentTarget.files?.item(0);
     if (file) {
-      const response = await rotaApi.getCalendarData(file);
-      if (!response.error) {
-        onRotaUploaded(response.calendarData);
-      }
+      const rota = await rotaApi.fetchRota(file);
+      onRotaUploaded(rota);
     }
   };
   return (

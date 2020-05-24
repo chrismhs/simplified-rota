@@ -1,10 +1,10 @@
-import {TwoThirdsWidth} from "../layout/containers";
-import {SelectFile} from "./selectFile";
-import {Link} from "gatsby";
-import React, {useState} from "react";
+import { TwoThirdsWidth } from "../layout/containers";
+import { SelectFile } from "./selectFile";
+import { Link } from "gatsby";
+import React, { useState } from "react";
 import styled from "styled-components";
-import {CalendarEntry, RotaApi} from "../utils/RotaApi";
-import {Rota} from "../utils/Rota";
+import { CalendarEntry, RotaApi } from "../utils/RotaApi";
+import { Rota } from "../utils/Rota";
 import CalendarComponent from "./calendar";
 
 const Spacer = styled.div`
@@ -31,14 +31,13 @@ type AppState = {
 };
 
 const App: React.FunctionComponent<AppProps> = ({ api }) => {
-  const [state, setState] = useState<AppState>({});
-  const clearState = () => setState({});
-  const onUpload = (schedule: CalendarEntry[]) => setState({rota: new Rota(schedule)});
-  if (state.rota) {
+  const [{ rota }, setState] = useState<AppState>({});
+  const onUpload = (rota: Rota) => setState({ rota });
+  if (rota) {
     return (
       <div>
         <h2>Your schedule</h2>
-        <CalendarComponent rota={state.rota} />
+        <CalendarComponent rota={rota} />
       </div>
     );
   } else {
