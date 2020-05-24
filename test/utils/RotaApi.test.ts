@@ -65,6 +65,6 @@ describe("Rota Api", () => {
       text: () => ''
     }));
     await expect(api.fetchRota({} as File))
-      .to.be.rejectedWith(/unknown/);
+      .to.be.rejectedWith(/unknown/i);
   });
 });
