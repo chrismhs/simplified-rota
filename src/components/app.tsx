@@ -7,7 +7,7 @@ import {RotaApi} from "../utils/RotaApi";
 import {Rota} from "../utils/Rota";
 import CalendarComponent from "./calendar";
 
-const Spacer = styled.div`
+export const Spacer = styled.div`
   display: block;
   height: 50px;
 `;
