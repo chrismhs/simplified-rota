@@ -1,10 +1,10 @@
-import { TwoThirdsWidth } from "../layout/containers";
-import { SelectFile } from "./selectFile";
-import { Link } from "gatsby";
-import React, { useState } from "react";
+import {TwoThirdsWidth} from "../layout/containers";
+import {SelectFile} from "./selectFile";
+import {Link} from "gatsby";
+import React, {useState} from "react";
 import styled from "styled-components";
-import { RotaApi } from "../utils/RotaApi";
-import { Rota } from "../utils/Rota";
+import {RotaApi} from "../utils/RotaApi";
+import {Rota} from "../utils/Rota";
 import CalendarComponent from "./calendar";
 
 export const Spacer = styled.div`
@@ -22,26 +22,26 @@ const LinkToExample = styled.div`
   font-size: 0.9em;
 `;
 
+const ErrorText = styled.div`
+  color: red;
+  font-size: 0.9em;
+  padding-top: 10px;
+`;
+
 type AppProps = {
   api: RotaApi;
 };
 
 type AppState = {
   rota?: Rota;
+  error?: boolean;
 };
 
 const App: React.FunctionComponent<AppProps> = ({ api }) => {
-  const [{ rota }, setState] = useState<AppState>({});
+  const [{ rota, error }, setState] = useState<AppState>({});
   const onUploadSuccess = (rota: Rota) => setState({ rota });
   const onUploadError = (reason?: string) => {
-    if (reason) console.warn("API failed", reason);
-    // TODO use react-modal instead
-    let message = "Sorry, we couldn't understand this rota.\n";
-    if (reason) {
-      message += "The system had the following to say: " + reason;
-    }
-    alert(message);
-    setState({});
+    setState({ error: true });
   };
 
   if (rota) {
@@ -51,32 +51,39 @@ const App: React.FunctionComponent<AppProps> = ({ api }) => {
         <CalendarComponent rota={rota!!} />
       </div>
     );
-  } else {
-    return (
-      <TwoThirdsWidth>
-        <h1>Taking some of the stress out of healthcare rotas</h1>
-        <p>
-          A tool that helps healthcare workers get a simple version of their
-          work schedule. Knowing when you are working should be easy.
-        </p>
-        <UploadWrapper>
-          <SelectFile
-            onRotaUploadedSuccessfully={onUploadSuccess}
-            onUploadError={onUploadError}
-            rotaApi={api}
-          />
-          <LinkToExample>
-            or <Link to="/schedule-example">see an example</Link>
-          </LinkToExample>
-        </UploadWrapper>
-        <Spacer />
-        <p>
-          This is an open-source project. If you think you can help, get in
-          touch or head over to the GitHub page.
-        </p>
-      </TwoThirdsWidth>
-    );
   }
+
+  const errorDisplay = error && (
+    <ErrorText>
+      Sorry, we had trouble understanding this rota - try a different file or get in touch.
+    </ErrorText>
+  );
+
+  return (
+    <TwoThirdsWidth>
+      <h1>Taking some of the stress out of healthcare rotas</h1>
+      <p>
+        A tool that helps healthcare workers get a simple version of their work
+        schedule. Knowing when you are working should be easy.
+      </p>
+      <UploadWrapper>
+        <SelectFile
+          onRotaUploadedSuccessfully={onUploadSuccess}
+          onUploadError={onUploadError}
+          rotaApi={api}
+        />
+        <LinkToExample>
+          or <Link to="/schedule-example">see an example</Link>
+        </LinkToExample>
+      </UploadWrapper>
+      {errorDisplay}
+      <Spacer />
+      <p>
+        This is an open-source project. If you think you can help, get in touch
+        or head over to the GitHub page.
+      </p>
+    </TwoThirdsWidth>
+  );
 };
 
 export default App;

@@ -1,4 +1,4 @@
-import {RotaApi, RotaApiError} from "../../src/utils/RotaApi";
+import { RotaApi, RotaApiError } from "../../src/utils/RotaApi";
 import chai, { expect } from "chai";
 import { Rota } from "../../src/utils/Rota";
 import chaiAsPromised from "chai-as-promised";
@@ -7,21 +7,22 @@ chai.use(chaiAsPromised);
 
 describe("Rota Api", () => {
   it("fetches a rota", async () => {
+    const resp = {
+      rota: [
+        {
+          name: "Morning Shift",
+          assignees: ["Fred Bloggs"],
+          time: {
+            start: new Date("2020-01-01 09:00:00"),
+            end: new Date("2020-01-01 13:00:00"),
+          },
+        },
+      ],
+    };
     const mockApiResponse = {
       status: 200,
-      text: () =>
-        JSON.stringify({
-          rota: [
-            {
-              name: "Morning Shift",
-              assignees: ["Fred Bloggs"],
-              time: {
-                start: new Date("2020-01-01 09:00:00"),
-                end: new Date("2020-01-01 13:00:00"),
-              },
-            },
-          ],
-        }),
+      json: () => resp,
+      text: () => JSON.stringify(resp),
     };
 
     const api = new RotaApi(() => Promise.resolve(mockApiResponse));
@@ -50,21 +51,36 @@ describe("Rota Api", () => {
     );
   });
 
-  it('throws custom error on non-2xx status code preserving error text', async () => {
+  it("throws custom error on non-2xx status code preserving error text", async () => {
     const api = new RotaApi(async () => ({
       status: 500,
-      text: () => JSON.stringify({error: 'API fell over'})
+      text: () => JSON.stringify({ error: "API fell over" }),
     }));
-    await expect(api.fetchRota({} as File))
-      .to.be.rejectedWith(RotaApiError, 'API fell over');
+    await expect(api.fetchRota({} as File)).to.be.rejectedWith(
+      RotaApiError,
+      "API fell over"
+    );
   });
 
-  it('supplies canned message if no error text was available', async () => {
+  it("throws unknown error on non-2xx status code where no error text available", async () => {
     const api = new RotaApi(async () => ({
       status: 500,
-      text: () => ''
+      text: () => "!!this error text is in the wrong format!!",
     }));
-    await expect(api.fetchRota({} as File))
-      .to.be.rejectedWith(/unknown/i);
+    await expect(api.fetchRota({} as File)).to.be.rejectedWith("Unknown error");
   });
+
+  it("throws custom error on 2xx response with wrong format", async () => {
+    const api = new RotaApi(async () => ({
+      status: 200,
+      text: () => JSON.stringify({ notARota: true }),
+      json: () => ({ notARota: true }),
+    }));
+    await expect(api.fetchRota({} as File)).to.be.rejectedWith(
+      RotaApiError,
+      /unrecognised format/i
+    );
+  });
+
+  it("throws specified error if return was not valid JSON", () => {});
 });

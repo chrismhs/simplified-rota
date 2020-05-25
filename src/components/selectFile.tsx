@@ -1,8 +1,7 @@
-import React, { Fragment } from "react";
+import React, {Fragment} from "react";
 import styled from "styled-components";
 import {RotaApi, RotaApiError} from "../utils/RotaApi";
-import {OnScheduleUploaded, OnUploadError} from "../utils/Types";
-import {Rota} from "../utils/Rota";
+import {OnUploadError, OnUploadSuccess} from "../utils/Types";
 
 const SubmitButton = styled.button`
   display: flex;
@@ -24,7 +23,7 @@ const FileInput = styled.input`
 `;
 
 type SelectFileProps = {
-  onRotaUploadedSuccessfully: OnScheduleUploaded;
+  onRotaUploadedSuccessfully: OnUploadSuccess;
   onUploadError: OnUploadError;
   rotaApi: RotaApi;
 };
@@ -37,6 +36,7 @@ export const SelectFile: React.FunctionComponent<SelectFileProps> = ({ onRotaUpl
         const rota = await rotaApi.fetchRota(file);
         onRotaUploadedSuccessfully(rota);
       } catch(e) {
+        console.error("Failed to parse rota:", e);
         onUploadError(e instanceof RotaApiError ? e.message : "");
       }
     }

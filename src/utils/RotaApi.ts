@@ -30,24 +30,29 @@ export class RotaApi {
       if (error) throw new RotaApiError(error);
       throw new Error('Unknown error');
     }
-    const { rota } = JSON.parse(await response.text());
-    return this.mapRotaToCalendarData(rota);
+    const obj = await response.json();
+    return this.mapRotaToCalendarData(obj);
   }
 
-  private mapRotaToCalendarData(activities: Activity[]): Rota {
-    return new Rota(
-      activities.map(({ name, assignees, time }, index) => {
-        return {
-          allDay: false,
-          assignees,
-          desc: name,
-          end: new Date(time.end),
-          start: new Date(time.start),
-          id: index,
-          title: name,
-        };
-      })
-    );
+  private mapRotaToCalendarData(obj: any): Rota {
+    try {
+      const {rota: activities} = obj;
+      return new Rota(
+        (activities as Activity[]).map(({name, assignees, time}, index) => {
+          return {
+            allDay: false,
+            assignees,
+            desc: name,
+            end: new Date(time.end),
+            start: new Date(time.start),
+            id: index,
+            title: name,
+          };
+        })
+      );
+    } catch (e) {
+      throw new RotaApiError(`API returned data in unrecognised format: ${e.message}`);
+    }
   }
 }
 
