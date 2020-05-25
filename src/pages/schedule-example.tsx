@@ -4,6 +4,8 @@ import SEO from "../components/seo";
 import Layout from "../components/layout";
 import { ThreeQuartersWidth } from "../layout/containers";
 import { Rota } from "../utils/Rota";
+import {Spacer} from "../components/app";
+import {Link} from "gatsby";
 
 const EXAMPLE_CALENDAR_DATA = new Rota([
   {
@@ -30,6 +32,8 @@ const ScheduleExample: React.FunctionComponent = () => (
     <ThreeQuartersWidth>
       <h1>Example Schedule</h1>
       <CalendarComponent rota={EXAMPLE_CALENDAR_DATA} />
+      <Spacer />
+      <Link to="/">Go back to the homepage</Link>
     </ThreeQuartersWidth>
   </Layout>
 );
