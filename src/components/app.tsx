@@ -1,10 +1,10 @@
-import {TwoThirdsWidth} from "../layout/containers";
-import {SelectFile} from "./selectFile";
-import {Link} from "gatsby";
-import React, {useState} from "react";
+import { TwoThirdsWidth } from "../layout/containers";
+import { SelectFile } from "./selectFile";
+import { Link } from "gatsby";
+import React, { useState } from "react";
 import styled from "styled-components";
-import {RotaApi} from "../utils/RotaApi";
-import {Rota} from "../utils/Rota";
+import { RotaApi } from "../utils/RotaApi";
+import { Rota } from "../utils/Rota";
 import CalendarComponent from "./calendar";
 
 export const Spacer = styled.div`
@@ -39,23 +39,23 @@ type AppState = {
 
 const App: React.FunctionComponent<AppProps> = ({ api }) => {
   const [{ rota, error }, setState] = useState<AppState>({});
-  const onUploadSuccess = (rota: Rota) => setState({ rota });
-  const onUploadError = (reason?: string) => {
-    setState({ error: true });
-  };
-
   if (rota) {
     return (
       <div>
         <h2>Your schedule</h2>
         <CalendarComponent rota={rota!!} />
+        <Spacer />
+        <a href="/" onClick={() => setState({})}>
+          Go back to the homepage
+        </a>
       </div>
     );
   }
 
   const errorDisplay = error && (
     <ErrorText>
-      Sorry, we had trouble understanding this rota - try a different file or get in touch.
+      Sorry, we had trouble understanding this rota - try a different file or
+      get in touch.
     </ErrorText>
   );
 
@@ -68,8 +68,8 @@ const App: React.FunctionComponent<AppProps> = ({ api }) => {
       </p>
       <UploadWrapper>
         <SelectFile
-          onRotaUploadedSuccessfully={onUploadSuccess}
-          onUploadError={onUploadError}
+          onUploadSuccess={(rota: Rota) => setState({ rota })}
+          onUploadError={() => setState({ error: true })}
           rotaApi={api}
         />
         <LinkToExample>

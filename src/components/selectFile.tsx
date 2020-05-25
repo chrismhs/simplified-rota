@@ -23,18 +23,18 @@ const FileInput = styled.input`
 `;
 
 type SelectFileProps = {
-  onRotaUploadedSuccessfully: OnUploadSuccess;
+  onUploadSuccess: OnUploadSuccess;
   onUploadError: OnUploadError;
   rotaApi: RotaApi;
 };
 
-export const SelectFile: React.FunctionComponent<SelectFileProps> = ({ onRotaUploadedSuccessfully, onUploadError, rotaApi }) => {
+export const SelectFile: React.FunctionComponent<SelectFileProps> = ({ onUploadSuccess, onUploadError, rotaApi }) => {
   const onChange = async (e: React.FormEvent<HTMLInputElement>) => {
     const file = e.currentTarget.files?.item(0);
     if (file) {
       try {
         const rota = await rotaApi.fetchRota(file);
-        onRotaUploadedSuccessfully(rota);
+        onUploadSuccess(rota);
       } catch(e) {
         console.error("Failed to parse rota:", e);
         onUploadError(e instanceof RotaApiError ? e.message : "");

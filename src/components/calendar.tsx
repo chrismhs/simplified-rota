@@ -1,79 +1,17 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import React, {Component} from "react";
+import {Calendar, momentLocalizer} from "react-big-calendar";
 import moment from "moment";
 import "moment/locale/en-gb";
-import Select, { OptionsType } from "react-select";
-import { ActionMeta, ValueType } from "react-select/src/types";
-import { Rota } from "../utils/Rota";
+import {Rota} from "../utils/Rota";
+import {NameFilter} from "./nameFilter";
+import styled from "styled-components";
 
 // Setup the localizer by providing the moment (or globalize) Object to the correct localizer.
 const localizer = momentLocalizer(moment); // or globalizeLocalizer
 
-const Container = styled.div`
+const CalendarContainer = styled.div`
   font-size: 0.875rem;
 `;
-
-const NameFilterContainer = styled.div`
-  width: max(300px, 50%);
-  padding-bottom: 30px;
-`;
-
-type OnFilterChange = (newSelection: string[]) => void;
-
-type NameFilterProps = {
-  names: string[];
-  selection: string[];
-  updateFilter: OnFilterChange;
-};
-
-type NameFilterOption = {
-  value: string;
-  label: string;
-};
-
-class NameFilter extends Component<NameFilterProps> {
-  private readonly options: OptionsType<NameFilterOption>;
-  private readonly initialSelection: OptionsType<NameFilterOption>;
-
-  constructor(props: NameFilterProps) {
-    super(props);
-    this.options = this.props.names.map((name) => ({
-      value: name,
-      label: name,
-    }));
-    this.initialSelection = this.props.selection.map((name) => ({
-      value: name,
-      label: name,
-    }));
-  }
-
-  render() {
-    return (
-      <NameFilterContainer>
-        <Select
-          isMulti
-          placeholder="Select a name to filter"
-          defaultValue={this.initialSelection}
-          name="Assignees"
-          options={this.options}
-          className="names-select"
-          classNamePrefix="select"
-          onChange={this.onChange.bind(this)}
-        />
-      </NameFilterContainer>
-    );
-  }
-
-  private onChange(
-    newSelection: ValueType<NameFilterOption>,
-    actionMeta: ActionMeta<NameFilterOption>
-  ) {
-    const valuesWithoutTypeNonsense = ((newSelection ||
-      []) as NameFilterOption[]).map((sel) => sel.value);
-    this.props.updateFilter(valuesWithoutTypeNonsense);
-  }
-}
 
 class CalendarComponent extends Component<
   { rota: Rota },
@@ -102,7 +40,7 @@ class CalendarComponent extends Component<
 
     const events = this.props.rota.byAssignee(this.state.filter);
     return (
-      <Container>
+      <CalendarContainer>
         <NameFilter
           names={allStaff}
           updateFilter={this.updateFilter}
@@ -117,7 +55,7 @@ class CalendarComponent extends Component<
           style={{ height: 600 }}
           views={["month", "week", "agenda"]}
         />
-      </Container>
+      </CalendarContainer>
     );
   }
 }
