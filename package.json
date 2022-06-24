@@ -59,7 +59,7 @@
     "deep-equal-in-any-order": "^1.0.27",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "latest",
-    "jsdom": "^16.2.2",
+    "jsdom": "^16.5.0",
     "mocha": "^7.1.1",
     "prettier": "^2.0.4"
   },
