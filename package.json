@@ -19,7 +19,7 @@
   "dependencies": {
     "@types/react-select": "^3.0.12",
     "babel-plugin-styled-components": "^1.10.7",
-    "gatsby": "^2.20.25",
+    "gatsby": "^2.32.13",
     "gatsby-image": "^2.3.4",
     "gatsby-plugin-manifest": "^2.3.5",
     "gatsby-plugin-offline": "^3.1.4",
@@ -60,7 +60,7 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "latest",
     "jsdom": "^16.2.2",
-    "mocha": "^7.1.1",
+    "mocha": "^10.2.0",
     "prettier": "^2.0.4"
   },
   "mocha": {
